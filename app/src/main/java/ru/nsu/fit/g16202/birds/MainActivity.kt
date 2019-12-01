@@ -5,11 +5,15 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.birdsandroid.R
 
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.nsu.fit.g16202.birds.dummy.DummyContent
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BirdFragment.OnListFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,5 +40,9 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+
     }
 }
