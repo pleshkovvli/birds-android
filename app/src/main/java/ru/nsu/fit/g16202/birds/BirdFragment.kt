@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.birdsandroid.R
 import ru.nsu.fit.g16202.birds.dummy.DummyBirds
 
@@ -47,7 +48,13 @@ class BirdFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyBirdRecyclerViewAdapter(DummyBirds.ITEMS, listener)
+                adapter = MyBirdRecyclerViewAdapter(DummyBirds.ITEMS, listener) { bird, imageView ->
+                    Glide
+                        .with(this@BirdFragment)
+                        .load(bird.imageUri)
+                        .centerCrop()
+                        .into(imageView)
+                }
             }
         }
         return view

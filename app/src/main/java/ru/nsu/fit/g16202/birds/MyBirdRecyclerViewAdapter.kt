@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.birdsandroid.R
 
@@ -20,7 +21,8 @@ import ru.nsu.fit.g16202.birds.model.Bird
  */
 class MyBirdRecyclerViewAdapter(
     private val mValues: List<Bird>,
-    private val mListener: OnListFragmentInteractionListener?
+    private val mListener: OnListFragmentInteractionListener?,
+    private val mImageLoader: (Bird, ImageView) -> Unit
 ) : RecyclerView.Adapter<MyBirdRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -42,7 +44,8 @@ class MyBirdRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.speciesName
+        mImageLoader(item, holder.mImageView)
+        holder.mNameView.text = item.speciesName
         holder.mContentView.text = item.description
 
         with(holder.mView) {
@@ -54,7 +57,8 @@ class MyBirdRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
+        val mImageView: ImageView = mView.item_image
+        val mNameView: TextView = mView.item_name
         val mContentView: TextView = mView.content
 
         override fun toString(): String {
