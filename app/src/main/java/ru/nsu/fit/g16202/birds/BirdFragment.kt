@@ -10,9 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.birdsandroid.R
+import ru.nsu.fit.g16202.birds.dummy.DummyBirds
 
-import ru.nsu.fit.g16202.birds.dummy.DummyContent
-import ru.nsu.fit.g16202.birds.dummy.DummyContent.DummyItem
+import ru.nsu.fit.g16202.birds.model.Bird
 
 /**
  * A fragment representing a list of Items.
@@ -47,7 +47,7 @@ class BirdFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyBirdRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                adapter = MyBirdRecyclerViewAdapter(DummyBirds.ITEMS, listener)
             }
         }
         return view
@@ -80,7 +80,7 @@ class BirdFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: Bird)
     }
 
     companion object {

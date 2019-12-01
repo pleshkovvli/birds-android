@@ -1,7 +1,5 @@
 package ru.nsu.fit.g16202.birds.dummy
 
-import java.util.ArrayList
-import java.util.HashMap
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -9,6 +7,7 @@ import java.util.HashMap
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
+/*
 object DummyContent {
 
     /**
@@ -54,4 +53,4 @@ object DummyContent {
     data class DummyItem(val id: String, val content: String, val details: String) {
         override fun toString(): String = content
     }
-}
+}*/

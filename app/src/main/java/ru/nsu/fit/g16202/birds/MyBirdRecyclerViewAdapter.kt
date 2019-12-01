@@ -9,17 +9,17 @@ import com.example.birdsandroid.R
 
 
 import ru.nsu.fit.g16202.birds.BirdFragment.OnListFragmentInteractionListener
-import ru.nsu.fit.g16202.birds.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_bird.view.*
+import ru.nsu.fit.g16202.birds.model.Bird
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [Bird] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
 class MyBirdRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
+    private val mValues: List<Bird>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<MyBirdRecyclerViewAdapter.ViewHolder>() {
 
@@ -27,7 +27,7 @@ class MyBirdRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
+            val item = v.tag as Bird
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -42,8 +42,8 @@ class MyBirdRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mIdView.text = item.speciesName
+        holder.mContentView.text = item.description
 
         with(holder.mView) {
             tag = item

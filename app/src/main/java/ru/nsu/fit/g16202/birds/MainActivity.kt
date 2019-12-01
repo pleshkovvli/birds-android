@@ -5,13 +5,10 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.birdsandroid.R
 
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.nsu.fit.g16202.birds.dummy.DummyContent
+import ru.nsu.fit.g16202.birds.model.Bird
 
 class MainActivity : AppCompatActivity(), BirdFragment.OnListFragmentInteractionListener {
 
@@ -42,7 +39,7 @@ class MainActivity : AppCompatActivity(), BirdFragment.OnListFragmentInteraction
         }
     }
 
-    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+    override fun onListFragmentInteraction(item: Bird) {
 
     }
 }
