@@ -1,9 +1,11 @@
 package ru.nsu.fit.g16202.birds
 
+import android.media.MediaPlayer
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.birdsandroid.R
@@ -22,7 +24,9 @@ import ru.nsu.fit.g16202.birds.model.Bird
 class MyBirdRecyclerViewAdapter(
     private val mValues: List<Bird>,
     private val mListener: OnListFragmentInteractionListener?,
-    private val mImageLoader: (Bird, ImageView) -> Unit
+    private val mImageLoader: (Bird, ImageView) -> Unit,
+    private val playSound: (Bird) -> Unit,
+    private val stopSound: () -> Unit
 ) : RecyclerView.Adapter<MyBirdRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -47,6 +51,8 @@ class MyBirdRecyclerViewAdapter(
         mImageLoader(item, holder.mImageView)
         holder.mNameView.text = item.speciesName
         holder.mContentView.text = item.description
+        holder.mSoundButton.setOnClickListener { playSound(item) }
+        holder.mSoundButton.setOnLongClickListener { stopSound(); true }
 
         with(holder.mView) {
             tag = item
@@ -54,12 +60,15 @@ class MyBirdRecyclerViewAdapter(
         }
     }
 
+
+
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mImageView: ImageView = mView.item_image
         val mNameView: TextView = mView.item_name
         val mContentView: TextView = mView.content
+        val mSoundButton: ImageButton = mView.sound_image
 
         override fun toString(): String {
             return super.toString() + " '" + mContentView.text + "'"

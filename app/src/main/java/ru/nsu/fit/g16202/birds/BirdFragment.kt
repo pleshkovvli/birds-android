@@ -1,6 +1,9 @@
 package ru.nsu.fit.g16202.birds
 
 import android.content.Context
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,6 +30,8 @@ class BirdFragment : Fragment() {
 
     private var listener: OnListFragmentInteractionListener? = null
 
+    private var soundPlayer: MediaPlayer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,13 +53,39 @@ class BirdFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyBirdRecyclerViewAdapter(DummyBirds.ITEMS, listener) { bird, imageView ->
-                    Glide
-                        .with(this@BirdFragment)
-                        .load(bird.imageUri)
-                        .centerCrop()
-                        .into(imageView)
-                }
+                adapter = MyBirdRecyclerViewAdapter(
+                    DummyBirds.ITEMS,
+                    listener,
+                    { bird, imageView ->
+                        Glide
+                            .with(this@BirdFragment)
+                            .load(bird.imageUri)
+                            .centerCrop()
+                            .into(imageView)
+                    },
+                    { bird ->
+                        if(soundPlayer?.isPlaying == true) {
+                            soundPlayer?.stop()
+                        }
+
+                        soundPlayer?.apply {
+                            soundPlayer?.reset()
+                            setAudioAttributes(
+                                AudioAttributes
+                                    .Builder()
+                                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                    .build()
+                            )
+                            setDataSource(bird.soundUri)
+                            prepare()
+                            start()
+                        }
+                    },
+                    {
+                        if(soundPlayer?.isPlaying == true) {
+                            soundPlayer?.stop()
+                        }
+                    })
             }
         }
         return view
@@ -62,6 +93,8 @@ class BirdFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        soundPlayer = MediaPlayer()
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
@@ -71,6 +104,9 @@ class BirdFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+
+        soundPlayer?.release()
+        soundPlayer = null
         listener = null
     }
 
