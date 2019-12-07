@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: "org.sonarqube"
+
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -23,8 +25,17 @@ android {
     }
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectName", "BIRDS ANDROID"
+    }
+}
+
 repositories {
     mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 dependencies {
