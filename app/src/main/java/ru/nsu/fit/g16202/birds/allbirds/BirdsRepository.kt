@@ -6,18 +6,18 @@ object BirdsRepository {
     val birds: List<Bird> = mutableListOf(
         Bird(
             "Синица", "Птица-синица",
-            "https://cdn.pixabay.com/photo/2014/07/08/12/36/bird-386725_960_720.jpg",
-            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509553-190425_0907_Ser-ser.mp3"
+            "https://images.unsplash.com/photo-1548246782-3f8a36b6b035?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1428&q=80",
+            "https://www.xeno-canto.org/sounds/uploaded/YQNGFTBRRT/XC237160-BRTI_Chiricahuas_3May2013_Harter_1.mp3"
         ),
         Bird(
             "Воробей", "Птица-воробей",
-            "https://cdn.pixabay.com/photo/2014/07/08/12/36/bird-386725_960_720.jpg",
-            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509553-190425_0907_Ser-ser.mp3"
+            "https://images.unsplash.com/photo-1550589677-a611b0e1bc8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+            "https://www.xeno-canto.org/sounds/uploaded/FWAVTDTPIQ/XC143001-Accipiter%20brevi%202-20000516.mp3"
         ),
         Bird(
             "Снегирь", "Птица-снегирь",
-            "https://cdn.pixabay.com/photo/2016/03/20/23/24/bullfinch-1269677_960_720.jpg",
-            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509553-190425_0907_Ser-ser.mp3"
+            "https://cdn.pixabay.com/photo/2018/10/08/14/46/bird-3732867_960_720.jpg",
+            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509548-190420_0899_Afu_Gp.mp3"
         ),
         Bird(
             "Соловей", "Птица-соловей",
@@ -31,13 +31,31 @@ object BirdsRepository {
         ),
         Bird(
             "Журавль", "Птица-журавль",
-            "https://cdn.pixabay.com/photo/2014/07/08/12/36/bird-386725_960_720.jpg",
-            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509553-190425_0907_Ser-ser.mp3"
+            "https://images.unsplash.com/photo-1550589677-a611b0e1bc8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+            "https://www.xeno-canto.org/sounds/uploaded/FWAVTDTPIQ/XC143001-Accipiter%20brevi%202-20000516.mp3"
         ),
         Bird(
             "Голубь", "Птица-голубь",
-            "https://cdn.pixabay.com/photo/2015/09/02/13/02/pigeon-918848_960_720.jpg",
-            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509553-190425_0907_Ser-ser.mp3"
+            "https://cdn.pixabay.com/photo/2018/10/08/14/46/bird-3732867_960_720.jpg",
+            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509548-190420_0899_Afu_Gp.mp3"
+        ),
+
+        Bird(
+            "Павлин", "Птица-павлин",
+            "https://images.unsplash.com/photo-1550589677-a611b0e1bc8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+            "https://www.xeno-canto.org/sounds/uploaded/FWAVTDTPIQ/XC143001-Accipiter%20brevi%202-20000516.mp3"
+        ),
+
+        Bird(
+            "Курица", "Птица-курица",
+            "https://cdn.pixabay.com/photo/2018/10/08/14/46/bird-3732867_960_720.jpg",
+            "https://www.xeno-canto.org/sounds/uploaded/BLMSIUFTFU/XC509548-190420_0899_Afu_Gp.mp3"
+        ),
+
+        Bird(
+            "Утка", "Птица-утка",
+            "https://images.unsplash.com/photo-1548246782-3f8a36b6b035?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1428&q=80",
+            "https://www.xeno-canto.org/sounds/uploaded/YQNGFTBRRT/XC237160-BRTI_Chiricahuas_3May2013_Harter_1.mp3"
         )
     )
 }
