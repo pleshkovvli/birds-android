@@ -1,45 +1,32 @@
-package ru.nsu.fit.g16202.birds
+package ru.nsu.fit.g16202.birds.allbirds
+
 
 import android.graphics.drawable.Drawable
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestBuilder
 import com.example.birdsandroid.R
-
-
-import ru.nsu.fit.g16202.birds.BirdFragment.OnListFragmentInteractionListener
-
 import kotlinx.android.synthetic.main.fragment_bird.view.*
-import ru.nsu.fit.g16202.birds.model.Bird
+import ru.nsu.fit.g16202.birds.BirdFragment.OnListFragmentInteractionListener
+import ru.nsu.fit.g16202.birds.bird.Bird
+import ru.nsu.fit.g16202.birds.bird.BirdView
 
 /**
  * [RecyclerView.Adapter] that can display a [Bird] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
-class BirdsView(
-    private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<BirdsView.ViewHolder>() {
-
-    private val mOnClickListener: View.OnClickListener
+class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
 
     var itemCount: () -> Int = { -1 }
 
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Bird
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
-        }
-    }
 
     fun setOnBindBirdViewListener(listener: ((BirdView, Int) -> Unit)?) {
         onBindBirdViewListener = listener
@@ -54,22 +41,17 @@ class BirdsView(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         onBindBirdViewListener?.invoke(holder, position)
         holder.fillView?.invoke()
-
-        with(holder.mView) {
-            //tag = item
-            setOnClickListener(mOnClickListener)
-        }
     }
 
 
 
-    override fun getItemCount(): Int = itemCount()//mValues.size
+    override fun getItemCount(): Int = itemCount()
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView), BirdView {
-        val mImageView: ImageView = mView.item_image
-        val mNameView: TextView = mView.item_name
-        val mContentView: TextView = mView.content
-        val mSoundButton: ImageButton = mView.sound_image
+        private val mImageView: ImageView = mView.item_image
+        private val mNameView: TextView = mView.item_name
+        private val mContentView: TextView = mView.content
+        private val mSoundButton: ImageButton = mView.sound_image
 
         override var fillView: (() -> Unit)? = null
 

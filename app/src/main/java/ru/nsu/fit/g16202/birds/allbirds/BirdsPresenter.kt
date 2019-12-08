@@ -1,4 +1,6 @@
-package ru.nsu.fit.g16202.birds
+package ru.nsu.fit.g16202.birds.allbirds
+
+import ru.nsu.fit.g16202.birds.bird.BirdPresenter
 
 class BirdsPresenter(
     private val interactor: BirdsInteractor,
@@ -9,7 +11,12 @@ class BirdsPresenter(
     init {
         view.setOnBindBirdViewListener { birdView, pos ->
             val birdInteractor = interactor.createBirdInteractor(pos)
-            birdsPresenters.add(BirdPresenter(birdInteractor, birdView))
+            birdsPresenters.add(
+                BirdPresenter(
+                    birdInteractor,
+                    birdView
+                )
+            )
         }
 
         view.itemCount = { interactor.size }

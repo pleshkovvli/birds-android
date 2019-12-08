@@ -1,20 +1,21 @@
 package ru.nsu.fit.g16202.birds
 
 import android.content.Context
-import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.birdsandroid.R
-
-import ru.nsu.fit.g16202.birds.model.Bird
+import ru.nsu.fit.g16202.birds.allbirds.BirdsInteractor
+import ru.nsu.fit.g16202.birds.allbirds.BirdsPresenter
+import ru.nsu.fit.g16202.birds.allbirds.BirdsView
+import ru.nsu.fit.g16202.birds.bird.Bird
 
 /**
  * A fragment representing a list of Items.
@@ -55,14 +56,15 @@ class BirdFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
 
-                val birdsView = BirdsView(listener)
+                val birdsView = BirdsView()
                 adapter = birdsView
 
                 val birdsInteractor = BirdsInteractor(
                     { soundPlayer },
                     { Glide.with(this@BirdFragment) }
                 )
-                birdsPresenter = BirdsPresenter(birdsInteractor, birdsView)
+                birdsPresenter =
+                    BirdsPresenter(birdsInteractor, birdsView)
             }
         }
         return view

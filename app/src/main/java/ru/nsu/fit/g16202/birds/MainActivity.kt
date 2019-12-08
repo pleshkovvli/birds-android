@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.nsu.fit.g16202.birds.model.Bird
+import ru.nsu.fit.g16202.birds.bird.Bird
 
 class MainActivity : AppCompatActivity(), BirdFragment.OnListFragmentInteractionListener {
 

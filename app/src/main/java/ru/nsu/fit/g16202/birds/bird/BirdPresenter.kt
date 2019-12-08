@@ -1,6 +1,9 @@
-package ru.nsu.fit.g16202.birds
+package ru.nsu.fit.g16202.birds.bird
 
-class BirdPresenter(val interactor: BirdInteractor, val view: BirdView) {
+class BirdPresenter(
+    private val interactor: BirdInteractor,
+    private val view: BirdView
+) {
     init {
         view.fillView = {
             view.description = interactor.bird.description
