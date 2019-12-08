@@ -2,7 +2,6 @@ package ru.nsu.fit.g16202.birds
 
 import android.content.Context
 import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.birdsandroid.R
-import ru.nsu.fit.g16202.birds.dummy.DummyBirds
 
 import ru.nsu.fit.g16202.birds.model.Bird
 
@@ -32,6 +30,8 @@ class BirdFragment : Fragment() {
 
     private var soundPlayer: MediaPlayer? = null
 
+    private lateinit var birdsPresenter: BirdsPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,6 +46,7 @@ class BirdFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bird_list, container, false)
 
+
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -53,39 +54,15 @@ class BirdFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyBirdRecyclerViewAdapter(
-                    DummyBirds.ITEMS,
-                    listener,
-                    { bird, imageView ->
-                        Glide
-                            .with(this@BirdFragment)
-                            .load(bird.imageUri)
-                            .centerCrop()
-                            .into(imageView)
-                    },
-                    { bird ->
-                        if(soundPlayer?.isPlaying == true) {
-                            soundPlayer?.stop()
-                        }
 
-                        soundPlayer?.apply {
-                            soundPlayer?.reset()
-                            setAudioAttributes(
-                                AudioAttributes
-                                    .Builder()
-                                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                                    .build()
-                            )
-                            setDataSource(bird.soundUri)
-                            prepare()
-                            start()
-                        }
-                    },
-                    {
-                        if(soundPlayer?.isPlaying == true) {
-                            soundPlayer?.stop()
-                        }
-                    })
+                val birdsView = BirdsView(listener)
+                adapter = birdsView
+
+                val birdsInteractor = BirdsInteractor(
+                    { soundPlayer },
+                    { Glide.with(this@BirdFragment) }
+                )
+                birdsPresenter = BirdsPresenter(birdsInteractor, birdsView)
             }
         }
         return view
