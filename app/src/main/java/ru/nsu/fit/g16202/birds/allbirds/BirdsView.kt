@@ -25,6 +25,8 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
 
+    val onStopSoundListeners: MutableList<() -> Unit> = mutableListOf()
+
     var itemCount: () -> Int = { -1 }
 
 
@@ -53,6 +55,29 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
         private val mContentView: TextView = mView.content
         private val mSoundButton: ImageButton = mView.sound_image
 
+        private var isPlaying: Boolean = false
+
+        private var onPlayListener: (() -> Unit)? = null
+        private var onStopListener: (() -> Unit)? = null
+
+        init {
+            onStopSoundListeners.add {
+                this.onStopListener?.invoke()
+                this.mSoundButton.setImageResource(R.drawable.ic_play_arrow_black_24dp)
+            }
+            mSoundButton.setOnClickListener {
+                isPlaying = if(isPlaying) {
+                    onStopSoundListeners.forEach { action -> action() }
+                    false
+                } else {
+                    onStopSoundListeners.forEach { action -> action() }
+                    onPlayListener?.invoke()
+                    mSoundButton.setImageResource(R.drawable.ic_action_name)
+                    true
+                }
+            }
+        }
+
         override var fillView: (() -> Unit)? = null
 
         override var name: String
@@ -67,19 +92,11 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
             }
 
         override fun setOnPlaySoundListener(listener: (() -> Unit)?) {
-            if(listener != null) {
-                mSoundButton.setOnClickListener { listener() }
-            } else {
-                mSoundButton.setOnClickListener(null)
-            }
+            onPlayListener = listener
         }
 
         override fun setOnStopSoundListener(listener: (() -> Unit)?) {
-            if(listener != null) {
-                mSoundButton.setOnLongClickListener { listener(); true }
-            } else {
-                mSoundButton.setOnLongClickListener(null)
-            }
+            onStopListener = listener
         }
 
         override fun showImage(imageHandler: RequestBuilder<Drawable>) {
