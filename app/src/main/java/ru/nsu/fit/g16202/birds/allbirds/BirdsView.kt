@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestBuilder
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
+import kotlinx.coroutines.*
 import ru.nsu.fit.g16202.birds.BirdFragment.OnListFragmentInteractionListener
 import ru.nsu.fit.g16202.birds.bird.Bird
 import ru.nsu.fit.g16202.birds.bird.BirdView
+import kotlin.coroutines.coroutineContext
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * [RecyclerView.Adapter] that can display a [Bird] and makes a call to the
@@ -22,6 +25,8 @@ import ru.nsu.fit.g16202.birds.bird.BirdView
  * TODO: Replace the implementation with code for your data type.
  */
 class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
+
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
 
@@ -62,18 +67,23 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
         init {
             onStopSoundListeners.add {
-                this.onStopListener?.invoke()
+                this.isPlaying = false
                 this.mSoundButton.setImageResource(R.drawable.ic_play_arrow_black_24dp)
             }
             mSoundButton.setOnClickListener {
-                isPlaying = if(isPlaying) {
+                if(isPlaying) {
                     onStopSoundListeners.forEach { action -> action() }
-                    false
+                    onStopListener?.invoke()
                 } else {
                     onStopSoundListeners.forEach { action -> action() }
-                    onPlayListener?.invoke()
-                    mSoundButton.setImageResource(R.drawable.ic_action_name)
-                    true
+                    isPlaying = true
+                    mSoundButton.setImageResource(R.drawable.ic_placeholder)
+                    coroutineScope.async {
+                        onPlayListener?.invoke()
+                        async(Dispatchers.Main) {
+                            mSoundButton.setImageResource(R.drawable.ic_action_name)
+                        }
+                    }
                 }
             }
         }
