@@ -28,6 +28,8 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
+    private var deferred: Deferred<*>? = null
+
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
 
     val onStopSoundListeners: MutableList<() -> Unit> = mutableListOf()
@@ -75,15 +77,30 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
                     onStopSoundListeners.forEach { action -> action() }
                     onStopListener?.invoke()
                 } else {
-                    onStopSoundListeners.forEach { action -> action() }
-                    isPlaying = true
-                    mSoundButton.setImageResource(R.drawable.ic_placeholder)
-                    coroutineScope.async {
-                        onPlayListener?.invoke()
-                        async(Dispatchers.Main) {
-                            mSoundButton.setImageResource(R.drawable.ic_action_name)
+                    deferred?.invokeOnCompletion {
+                        onStopSoundListeners.forEach { action -> action() }
+                        isPlaying = true
+                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
+                        deferred = coroutineScope.async {
+                            onPlayListener?.invoke()
+                            async(Dispatchers.Main) {
+                                mSoundButton.setImageResource(R.drawable.ic_action_name)
+                                //deferred = null
+                            }
+                        }
+                    } ?: run {
+                        onStopSoundListeners.forEach { action -> action() }
+                        isPlaying = true
+                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
+                        deferred = coroutineScope.async {
+                            onPlayListener?.invoke()
+                            async(Dispatchers.Main) {
+                                mSoundButton.setImageResource(R.drawable.ic_action_name)
+                                //deferred = null
+                            }
                         }
                     }
+
                 }
             }
         }
