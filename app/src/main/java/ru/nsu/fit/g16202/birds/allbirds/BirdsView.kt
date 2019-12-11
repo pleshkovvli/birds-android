@@ -18,10 +18,7 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
 
-    val onStopSoundListeners: MutableList<() -> Unit> = mutableListOf()
-
     var itemCount: () -> Int = { -1 }
-
 
     fun setOnBindBirdViewListener(listener: ((BirdView, Int) -> Unit)?) {
         onBindBirdViewListener = listener
@@ -55,10 +52,6 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
         private var onStopListener: (() -> Unit)? = null
 
         init {
-            onStopSoundListeners.add {
-                this.isPlaying = false
-                this.mSoundButton.setImageResource(R.drawable.ic_play_arrow_black_24dp)
-            }
             mSoundButton.setOnClickListener {
                 if(isPlaying) {
                     onStopListener?.invoke()

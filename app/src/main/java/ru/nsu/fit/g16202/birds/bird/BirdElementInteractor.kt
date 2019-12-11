@@ -12,24 +12,18 @@ class BirdElementInteractor(
     private val load: (String) -> RequestBuilder<Drawable>
 ) : BirdInteractor {
 
-    private var deferred: Deferred<*>? = null
-
     private var onPlayListener: ((BirdInteractor) -> Unit)? = null
     private var onStopListener: ((BirdInteractor) -> Unit)? = null
     private var onSoundLoadedListener: ((BirdInteractor) -> Unit)? = null
 
     override fun playSound() {
         onPlayListener?.invoke(this)
-        deferred = CoroutineScope(Dispatchers.IO).async(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             play(bird.soundUri)
             withContext(Dispatchers.Main) {
                 onSoundLoadedListener?.invoke(this@BirdElementInteractor)
             }
         }
-    }
-
-    override fun cancelPlaying() {
-
     }
 
     override fun stopSound() {

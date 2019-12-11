@@ -10,8 +10,6 @@ interface BirdInteractor {
     fun setOnStopListener(listener: (BirdInteractor) -> Unit)
     fun setOnSoundLoadedListener(listener: (BirdInteractor) -> Unit)
 
-    fun cancelPlaying()
-
     fun playSound()
     fun stopSound()
 
