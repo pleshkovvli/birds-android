@@ -14,7 +14,8 @@ class BirdsPresenter(
             birdsPresenters.add(
                 BirdPresenter(
                     birdInteractor,
-                    birdView
+                    birdView,
+                    interactor.getOnPlayAction()
                 )
             )
         }

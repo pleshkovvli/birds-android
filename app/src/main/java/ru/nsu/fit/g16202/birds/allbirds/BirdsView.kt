@@ -2,6 +2,7 @@ package ru.nsu.fit.g16202.birds.allbirds
 
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +26,6 @@ import kotlin.coroutines.suspendCoroutine
  * TODO: Replace the implementation with code for your data type.
  */
 class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
-
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
-
-    private var deferred: Deferred<*>? = null
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
 
@@ -63,6 +60,7 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
         private val mSoundButton: ImageButton = mView.sound_image
 
         private var isPlaying: Boolean = false
+        private var isLoading: Boolean = false
 
         private var onPlayListener: (() -> Unit)? = null
         private var onStopListener: (() -> Unit)? = null
@@ -74,32 +72,33 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
             }
             mSoundButton.setOnClickListener {
                 if(isPlaying) {
-                    onStopSoundListeners.forEach { action -> action() }
+                    //onStopSoundListeners.forEach { action -> action() }
                     onStopListener?.invoke()
                 } else {
-                    deferred?.invokeOnCompletion {
-                        onStopSoundListeners.forEach { action -> action() }
-                        isPlaying = true
-                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
-                        deferred = coroutineScope.async {
-                            onPlayListener?.invoke()
-                            async(Dispatchers.Main) {
-                                mSoundButton.setImageResource(R.drawable.ic_action_name)
-                                //deferred = null
-                            }
-                        }
-                    } ?: run {
-                        onStopSoundListeners.forEach { action -> action() }
-                        isPlaying = true
-                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
-                        deferred = coroutineScope.async {
-                            onPlayListener?.invoke()
-                            async(Dispatchers.Main) {
-                                mSoundButton.setImageResource(R.drawable.ic_action_name)
-                                //deferred = null
-                            }
-                        }
-                    }
+                    onPlayListener?.invoke()
+//                    deferred?.invokeOnCompletion {
+//                        onStopSoundListeners.forEach { action -> action() }
+//                        isPlaying = true
+//                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
+//                        deferred = coroutineScope.async {
+//                            onPlayListener?.invoke()
+//                            async(Dispatchers.Main) {
+//                                mSoundButton.setImageResource(R.drawable.ic_action_name)
+//                                //deferred = null
+//                            }
+//                        }
+//                    } ?: run {
+//                        onStopSoundListeners.forEach { action -> action() }
+//                        isPlaying = true
+//                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
+//                        deferred = coroutineScope.async {
+//                            onPlayListener?.invoke()
+//                            async(Dispatchers.Main) {
+//                                mSoundButton.setImageResource(R.drawable.ic_action_name)
+//                                //deferred = null
+//                            }
+//                        }
+//                    }
 
                 }
             }
@@ -134,6 +133,25 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
         override fun toString(): String {
             return super.toString() + " '" + mContentView.text + "'"
+        }
+
+        override fun loadSound() {
+            isLoading = true
+            mSoundButton.setImageResource(R.drawable.ic_placeholder)
+        }
+
+        override fun playSound() {
+            if(isLoading) {
+                isPlaying = true
+                isLoading = false
+                mSoundButton.setImageResource(R.drawable.ic_action_name)
+            }
+        }
+
+        override fun stopSound() {
+            isPlaying = false
+            isLoading = false
+            mSoundButton.setImageResource(R.drawable.ic_play_arrow_black_24dp)
         }
     }
 }

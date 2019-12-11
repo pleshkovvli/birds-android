@@ -6,6 +6,12 @@ import com.bumptech.glide.RequestBuilder
 interface BirdInteractor {
     val bird: Bird
 
+    fun setOnPlayListener(listener: (BirdInteractor) -> Unit)
+    fun setOnStopListener(listener: (BirdInteractor) -> Unit)
+    fun setOnSoundLoadedListener(listener: (BirdInteractor) -> Unit)
+
+    fun cancelPlaying()
+
     fun playSound()
     fun stopSound()
 

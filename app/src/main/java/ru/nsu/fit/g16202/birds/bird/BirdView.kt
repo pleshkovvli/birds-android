@@ -11,5 +11,10 @@ interface BirdView {
     fun setOnPlaySoundListener(listener: (() -> Unit)?)
     fun setOnStopSoundListener(listener: (() -> Unit)?)
 
+    fun loadSound()
+
+    fun playSound()
+    fun stopSound()
+
     fun showImage(imageHandler: RequestBuilder<Drawable>)
 }
