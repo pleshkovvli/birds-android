@@ -7,7 +7,6 @@ import com.bumptech.glide.RequestManager
 import ru.nsu.fit.g16202.birds.bird.Bird
 import ru.nsu.fit.g16202.birds.bird.BirdElementInteractor
 import ru.nsu.fit.g16202.birds.bird.BirdInteractor
-import java.lang.Exception
 
 class BirdsInteractor(
     private val getSoundPlayer: () -> MediaPlayer?,
@@ -43,9 +42,9 @@ class BirdsInteractor(
         }
     }
 
-    private val lock = java.lang.Object()
+    private val lock = Object()
 
-    private fun stopBirdSound() //= synchronized(lock)
+    private fun stopBirdSound()
     {
         if (getSoundPlayer()?.isPlaying == true) {
             getSoundPlayer()?.stop()

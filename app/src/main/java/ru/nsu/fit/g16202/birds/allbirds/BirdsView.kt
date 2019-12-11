@@ -72,34 +72,9 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
             }
             mSoundButton.setOnClickListener {
                 if(isPlaying) {
-                    //onStopSoundListeners.forEach { action -> action() }
                     onStopListener?.invoke()
                 } else {
                     onPlayListener?.invoke()
-//                    deferred?.invokeOnCompletion {
-//                        onStopSoundListeners.forEach { action -> action() }
-//                        isPlaying = true
-//                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
-//                        deferred = coroutineScope.async {
-//                            onPlayListener?.invoke()
-//                            async(Dispatchers.Main) {
-//                                mSoundButton.setImageResource(R.drawable.ic_action_name)
-//                                //deferred = null
-//                            }
-//                        }
-//                    } ?: run {
-//                        onStopSoundListeners.forEach { action -> action() }
-//                        isPlaying = true
-//                        mSoundButton.setImageResource(R.drawable.ic_placeholder)
-//                        deferred = coroutineScope.async {
-//                            onPlayListener?.invoke()
-//                            async(Dispatchers.Main) {
-//                                mSoundButton.setImageResource(R.drawable.ic_action_name)
-//                                //deferred = null
-//                            }
-//                        }
-//                    }
-
                 }
             }
         }
