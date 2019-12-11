@@ -1,4 +1,4 @@
-package ru.nsu.fit.g16202.birds
+package ru.nsu.fit.g16202.birds.screen
 
 import android.content.Context
 import android.media.MediaPlayer
@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.birdsandroid.R
-import ru.nsu.fit.g16202.birds.allbirds.BirdsInteractor
-import ru.nsu.fit.g16202.birds.allbirds.BirdsPresenter
-import ru.nsu.fit.g16202.birds.allbirds.BirdsView
+import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
+import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
+import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
 
 class BirdFragment : Fragment() {
 
@@ -52,7 +52,10 @@ class BirdFragment : Fragment() {
                     { soundPlayer },
                     { Glide.with(this@BirdFragment) }
                 )
-                birdsPresenter = BirdsPresenter(birdsInteractor, birdsView)
+                birdsPresenter = BirdsPresenter(
+                    birdsInteractor,
+                    birdsView
+                )
             }
         }
         return view

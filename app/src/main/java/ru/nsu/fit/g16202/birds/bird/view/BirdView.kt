@@ -1,4 +1,4 @@
-package ru.nsu.fit.g16202.birds.bird
+package ru.nsu.fit.g16202.birds.bird.view
 
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.RequestBuilder

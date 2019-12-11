@@ -1,4 +1,4 @@
-package ru.nsu.fit.g16202.birds.bird
+package ru.nsu.fit.g16202.birds.bird.entity
 
 data class Bird(
     val speciesName: String,

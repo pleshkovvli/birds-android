@@ -1,11 +1,12 @@
-package ru.nsu.fit.g16202.birds.allbirds
+package ru.nsu.fit.g16202.birds.allbirds.interactor
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import com.bumptech.glide.RequestManager
-import ru.nsu.fit.g16202.birds.bird.Bird
-import ru.nsu.fit.g16202.birds.bird.BirdElementInteractor
-import ru.nsu.fit.g16202.birds.bird.BirdInteractor
+import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.bird.entity.Bird
+import ru.nsu.fit.g16202.birds.bird.interactor.BirdElementInteractor
+import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 
 class BirdsInteractor(
     private val getSoundPlayer: () -> MediaPlayer?,

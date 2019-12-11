@@ -1,9 +1,9 @@
-package ru.nsu.fit.g16202.birds.bird
+package ru.nsu.fit.g16202.birds.bird.interactor
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import com.bumptech.glide.RequestBuilder
 import kotlinx.coroutines.*
+import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 class BirdElementInteractor(
     override val bird: Bird,

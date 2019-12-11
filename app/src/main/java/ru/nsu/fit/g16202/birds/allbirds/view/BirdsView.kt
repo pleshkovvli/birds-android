@@ -1,4 +1,4 @@
-package ru.nsu.fit.g16202.birds.allbirds
+package ru.nsu.fit.g16202.birds.allbirds.view
 
 
 import android.graphics.drawable.Drawable
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestBuilder
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
-import ru.nsu.fit.g16202.birds.bird.BirdView
+import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
@@ -39,7 +39,8 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
     override fun getItemCount(): Int = itemCount()
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView), BirdView {
+    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView),
+        BirdView {
         private val mImageView: ImageView = mView.item_image
         private val mNameView: TextView = mView.item_name
         private val mContentView: TextView = mView.content

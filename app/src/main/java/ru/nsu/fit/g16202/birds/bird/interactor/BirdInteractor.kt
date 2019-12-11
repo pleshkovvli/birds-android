@@ -1,7 +1,8 @@
-package ru.nsu.fit.g16202.birds.bird
+package ru.nsu.fit.g16202.birds.bird.interactor
 
 import android.graphics.drawable.Drawable
 import com.bumptech.glide.RequestBuilder
+import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 interface BirdInteractor {
     val bird: Bird

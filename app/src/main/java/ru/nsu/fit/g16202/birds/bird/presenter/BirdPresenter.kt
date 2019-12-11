@@ -1,4 +1,7 @@
-package ru.nsu.fit.g16202.birds.bird
+package ru.nsu.fit.g16202.birds.bird.presenter
+
+import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
+import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdPresenter(
     private val interactor: BirdInteractor,

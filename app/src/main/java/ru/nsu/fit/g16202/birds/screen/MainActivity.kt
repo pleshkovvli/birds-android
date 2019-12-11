@@ -1,4 +1,4 @@
-package ru.nsu.fit.g16202.birds
+package ru.nsu.fit.g16202.birds.screen
 
 import android.os.Bundle
 import android.view.Menu

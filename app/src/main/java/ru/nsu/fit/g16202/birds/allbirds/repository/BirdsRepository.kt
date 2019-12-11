@@ -1,6 +1,6 @@
-package ru.nsu.fit.g16202.birds.allbirds
+package ru.nsu.fit.g16202.birds.allbirds.repository
 
-import ru.nsu.fit.g16202.birds.bird.Bird
+import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 object BirdsRepository {
     val birds: List<Bird> = mutableListOf(

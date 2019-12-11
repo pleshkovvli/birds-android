@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="ru.nsu.fit.g16202.birds.BirdFragment"
+    tools:context="ru.nsu.fit.g16202.birds.screen.BirdFragment"
     tools:listitem="@layout/fragment_bird" />
