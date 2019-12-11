@@ -15,19 +15,11 @@ import com.example.birdsandroid.R
 import ru.nsu.fit.g16202.birds.allbirds.BirdsInteractor
 import ru.nsu.fit.g16202.birds.allbirds.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.BirdsView
-import ru.nsu.fit.g16202.birds.bird.Bird
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [BirdFragment.OnListFragmentInteractionListener] interface.
- */
 class BirdFragment : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
-
-    private var listener: OnListFragmentInteractionListener? = null
 
     private var soundPlayer: MediaPlayer? = null
 
@@ -74,11 +66,6 @@ class BirdFragment : Fragment() {
         super.onAttach(context)
 
         soundPlayer = MediaPlayer()
-        if (context is OnListFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
-        }
     }
 
     override fun onDetach() {
@@ -86,23 +73,8 @@ class BirdFragment : Fragment() {
 
         soundPlayer?.release()
         soundPlayer = null
-        listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: Bird)
-    }
 
     companion object {
 

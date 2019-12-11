@@ -8,7 +8,7 @@ import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.nsu.fit.g16202.birds.bird.Bird
 
-class MainActivity : AppCompatActivity(), BirdFragment.OnListFragmentInteractionListener {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +30,5 @@ class MainActivity : AppCompatActivity(), BirdFragment.OnListFragmentInteraction
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onListFragmentInteraction(item: Bird) {
-
     }
 }

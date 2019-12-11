@@ -2,7 +2,6 @@ package ru.nsu.fit.g16202.birds.allbirds
 
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestBuilder
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
-import kotlinx.coroutines.*
-import ru.nsu.fit.g16202.birds.BirdFragment.OnListFragmentInteractionListener
-import ru.nsu.fit.g16202.birds.bird.Bird
 import ru.nsu.fit.g16202.birds.bird.BirdView
-import kotlin.coroutines.coroutineContext
-import kotlin.coroutines.suspendCoroutine
 
-/**
- * [RecyclerView.Adapter] that can display a [Bird] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
 class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
