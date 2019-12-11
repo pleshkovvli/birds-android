@@ -18,7 +18,6 @@ import ru.nsu.fit.g16202.birds.allbirds.BirdsView
 
 class BirdFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
 
     private var soundPlayer: MediaPlayer? = null
@@ -39,8 +38,6 @@ class BirdFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bird_list, container, false)
 
-
-        // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
@@ -55,8 +52,7 @@ class BirdFragment : Fragment() {
                     { soundPlayer },
                     { Glide.with(this@BirdFragment) }
                 )
-                birdsPresenter =
-                    BirdsPresenter(birdsInteractor, birdsView)
+                birdsPresenter = BirdsPresenter(birdsInteractor, birdsView)
             }
         }
         return view
@@ -78,10 +74,8 @@ class BirdFragment : Fragment() {
 
     companion object {
 
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             BirdFragment().apply {
