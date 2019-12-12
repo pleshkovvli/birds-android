@@ -1,12 +1,14 @@
 package ru.nsu.fit.g16202.birds.bird.presenter
 
+import ru.nsu.fit.g16202.birds.bird.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdPresenter(
     private val interactor: BirdInteractor,
     private val view: BirdView,
-    onPlayAction: (BirdInteractor) -> Unit
+    onPlayAction: (BirdInteractor) -> Unit,
+    private val getImageHandler: () -> ImageHandler
 ) {
     init {
         view.fillView = {
@@ -14,7 +16,13 @@ class BirdPresenter(
             view.name = interactor.bird.speciesName
             view.setOnPlaySoundListener { interactor.playSound() }
             view.setOnStopSoundListener { interactor.stopSound() }
-            view.showImage(interactor.loadImage())
+
+            val imageHandler = getImageHandler()
+            view.imageShow = imageHandler
+            interactor.imageLoader = imageHandler
+
+            interactor.loadImage()
+            view.showImage()
 
             interactor.setOnPlayListener {
                 view.loadSound()

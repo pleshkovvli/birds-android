@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestBuilder
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
+import ru.nsu.fit.g16202.birds.bird.ImageShow
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
@@ -64,6 +65,8 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
         override var fillView: (() -> Unit)? = null
 
+        override lateinit var imageShow: ImageShow
+
         override var name: String
             get() = mNameView.text.toString()
             set(value) {
@@ -83,10 +86,8 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
             onStopListener = listener
         }
 
-        override fun showImage(imageHandler: RequestBuilder<Drawable>) {
-            imageHandler
-                .centerCrop()
-                .into(mImageView)
+        override fun showImage() {
+            imageShow.showImage(mImageView)
         }
 
         override fun toString(): String {

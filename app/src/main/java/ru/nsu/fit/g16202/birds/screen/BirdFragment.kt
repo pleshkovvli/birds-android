@@ -15,6 +15,7 @@ import com.example.birdsandroid.R
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
+import ru.nsu.fit.g16202.birds.bird.ImageHandler
 
 class BirdFragment : Fragment() {
 
@@ -48,14 +49,11 @@ class BirdFragment : Fragment() {
                 val birdsView = BirdsView()
                 adapter = birdsView
 
-                val birdsInteractor = BirdsInteractor(
-                    { soundPlayer },
-                    { Glide.with(this@BirdFragment) }
-                )
+                val birdsInteractor = BirdsInteractor { soundPlayer }
                 birdsPresenter = BirdsPresenter(
                     birdsInteractor,
                     birdsView
-                )
+                ) { ImageHandler { Glide.with(this@BirdFragment) } }
             }
         }
         return view

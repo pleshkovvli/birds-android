@@ -1,7 +1,6 @@
 package ru.nsu.fit.g16202.birds.bird.view
 
-import android.graphics.drawable.Drawable
-import com.bumptech.glide.RequestBuilder
+import ru.nsu.fit.g16202.birds.bird.ImageShow
 
 interface BirdView {
     var fillView: (() -> Unit)?
@@ -16,5 +15,6 @@ interface BirdView {
     fun playSound()
     fun stopSound()
 
-    fun showImage(imageHandler: RequestBuilder<Drawable>)
+    var imageShow: ImageShow
+    fun showImage()
 }

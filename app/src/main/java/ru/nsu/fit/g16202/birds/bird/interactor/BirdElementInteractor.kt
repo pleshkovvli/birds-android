@@ -1,20 +1,20 @@
 package ru.nsu.fit.g16202.birds.bird.interactor
 
-import android.graphics.drawable.Drawable
-import com.bumptech.glide.RequestBuilder
 import kotlinx.coroutines.*
+import ru.nsu.fit.g16202.birds.bird.ImageLoader
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 class BirdElementInteractor(
     override val bird: Bird,
     private val play: (String) -> Unit,
-    private val stop: () -> Unit,
-    private val load: (String) -> RequestBuilder<Drawable>
+    private val stop: () -> Unit
 ) : BirdInteractor {
 
     private var onPlayListener: ((BirdInteractor) -> Unit)? = null
     private var onStopListener: ((BirdInteractor) -> Unit)? = null
     private var onSoundLoadedListener: ((BirdInteractor) -> Unit)? = null
+
+    override lateinit var imageLoader: ImageLoader
 
     override fun playSound() {
         onPlayListener?.invoke(this)
@@ -31,8 +31,8 @@ class BirdElementInteractor(
         stop()
     }
 
-    override fun loadImage(): RequestBuilder<Drawable> {
-        return load(bird.imageUri)
+    override fun loadImage() {
+        imageLoader.loadImage(bird.imageUri)
     }
 
     override fun setOnPlayListener(listener: (BirdInteractor) -> Unit) {
