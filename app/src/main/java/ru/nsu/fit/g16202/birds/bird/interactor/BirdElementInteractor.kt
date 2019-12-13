@@ -5,29 +5,34 @@ import ru.nsu.fit.g16202.birds.bird.ImageLoader
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 class BirdElementInteractor(
-    override val bird: Bird,
-    private val play: (String) -> Unit,
-    private val stop: () -> Unit
+    private val getBird: () -> Bird,
+    private val play: () -> Unit,
+    private val stop: () -> Unit,
+    private val preparePlay: () -> Unit
 ) : BirdInteractor {
 
-    private var onPlayListener: ((BirdInteractor) -> Unit)? = null
-    private var onStopListener: ((BirdInteractor) -> Unit)? = null
-    private var onSoundLoadedListener: ((BirdInteractor) -> Unit)? = null
+    override val bird: Bird
+        get() = getBird()
+
+    private var onPlayListener: (() -> Unit)? = null
+    private var onStopListener: (() -> Unit)? = null
+    private var onSoundLoadedListener: (() -> Unit)? = null
 
     override lateinit var imageLoader: ImageLoader
 
     override fun playSound() {
-        onPlayListener?.invoke(this)
+        onPlayListener?.invoke()
+        preparePlay()
         CoroutineScope(Dispatchers.IO).launch {
-            play(bird.soundUri)
+            play()
             withContext(Dispatchers.Main) {
-                onSoundLoadedListener?.invoke(this@BirdElementInteractor)
+                onSoundLoadedListener?.invoke()
             }
         }
     }
 
     override fun stopSound() {
-        onStopListener?.invoke(this)
+        onStopListener?.invoke()
         stop()
     }
 
@@ -35,15 +40,15 @@ class BirdElementInteractor(
         imageLoader.loadImage(bird.imageUri)
     }
 
-    override fun setOnPlayListener(listener: (BirdInteractor) -> Unit) {
+    override fun setOnPlayListener(listener: () -> Unit) {
         onPlayListener = listener
     }
 
-    override fun setOnStopListener(listener: (BirdInteractor) -> Unit) {
+    override fun setOnStopListener(listener: () -> Unit) {
         onStopListener = listener
     }
 
-    override fun setOnSoundLoadedListener(listener: (BirdInteractor) -> Unit) {
+    override fun setOnSoundLoadedListener(listener: () -> Unit) {
         onSoundLoadedListener = listener
     }
 }

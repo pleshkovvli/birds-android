@@ -1,7 +1,6 @@
 package ru.nsu.fit.g16202.birds.allbirds.view
 
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestBuilder
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
 import ru.nsu.fit.g16202.birds.bird.ImageShow

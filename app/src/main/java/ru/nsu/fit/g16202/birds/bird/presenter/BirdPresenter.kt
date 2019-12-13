@@ -7,7 +7,6 @@ import ru.nsu.fit.g16202.birds.bird.view.BirdView
 class BirdPresenter(
     private val interactor: BirdInteractor,
     private val view: BirdView,
-    onPlayAction: (BirdInteractor) -> Unit,
     private val getImageHandler: () -> ImageHandler
 ) {
     init {
@@ -26,7 +25,6 @@ class BirdPresenter(
 
             interactor.setOnPlayListener {
                 view.loadSound()
-                onPlayAction(it)
             }
             interactor.setOnStopListener { view.stopSound() }
             interactor.setOnSoundLoadedListener { view.playSound() }

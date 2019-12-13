@@ -16,6 +16,8 @@ import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
 import ru.nsu.fit.g16202.birds.bird.ImageHandler
+import ru.nsu.fit.g16202.birds.bird.presenter.BirdPresenter
+import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdFragment : Fragment() {
 
@@ -24,6 +26,8 @@ class BirdFragment : Fragment() {
     private var soundPlayer: MediaPlayer? = null
 
     private lateinit var birdsPresenter: BirdsPresenter
+
+    private val birdsPresenters: MutableList<BirdPresenter> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +54,14 @@ class BirdFragment : Fragment() {
                 adapter = birdsView
 
                 val birdsInteractor = BirdsInteractor { soundPlayer }
-                birdsPresenter = BirdsPresenter(
-                    birdsInteractor,
-                    birdsView
-                ) { ImageHandler { Glide.with(this@BirdFragment) } }
+                birdsPresenter = BirdsPresenter(birdsInteractor, birdsView)
+                { birdView: BirdView, pos: Int ->
+                    val birdInteractor = birdsInteractor.createBirdInteractor(pos)
+                    birdsPresenters.add(
+                        BirdPresenter(birdInteractor, birdView)
+                        { ImageHandler { Glide.with(this@BirdFragment) } }
+                    )
+                }
             }
         }
         return view

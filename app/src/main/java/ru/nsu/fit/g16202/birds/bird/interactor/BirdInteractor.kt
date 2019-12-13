@@ -8,9 +8,9 @@ interface BirdInteractor {
 
     var imageLoader: ImageLoader
 
-    fun setOnPlayListener(listener: (BirdInteractor) -> Unit)
-    fun setOnStopListener(listener: (BirdInteractor) -> Unit)
-    fun setOnSoundLoadedListener(listener: (BirdInteractor) -> Unit)
+    fun setOnPlayListener(listener: () -> Unit)
+    fun setOnStopListener(listener: () -> Unit)
+    fun setOnSoundLoadedListener(listener: () -> Unit)
 
     fun playSound()
     fun stopSound()

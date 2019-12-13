@@ -10,26 +10,23 @@ import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 class BirdsInteractor(private val getSoundPlayer: () -> MediaPlayer?) {
     private val birds: List<Bird> = BirdsRepository.birds
 
-    private val interactors: MutableList<BirdInteractor> = mutableListOf()
+    private val interactors: MutableMap<String, BirdInteractor> = mutableMapOf()
 
     val size: Int = birds.size
 
     fun createBirdInteractor(position: Int): BirdInteractor {
         return BirdElementInteractor(
-            birds[position],
-            { uri -> playBirdSound(uri) },
-            { stopBirdSound() }
-        ).also { interactors.add(it) }
-    }
-
-    fun getOnPlayAction(): (BirdInteractor) -> Unit {
-        return { birdInteractor ->
-            interactors.forEach { currentInteractor ->
-                if (currentInteractor !== birdInteractor) {
-                    currentInteractor.stopSound()
+            { birds[position] },
+            { playBirdSound(birds[position].soundUri) },
+            { stopBirdSound() },
+            {
+                interactors.forEach { currentInteractor ->
+                    if (currentInteractor.value.bird.id != birds[position].id) {
+                        currentInteractor.value.stopSound()
+                    }
                 }
             }
-        }
+        ).also { interactors[birds[position].id] = it }
     }
 
     private fun stopBirdSound() {
