@@ -1,7 +1,7 @@
 package ru.nsu.fit.g16202.birds.bird.interactor
 
 import kotlinx.coroutines.*
-import ru.nsu.fit.g16202.birds.bird.ImageLoader
+import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageLoader
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 class BirdElementInteractor(

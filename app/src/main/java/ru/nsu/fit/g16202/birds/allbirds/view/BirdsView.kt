@@ -10,10 +10,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
-import ru.nsu.fit.g16202.birds.bird.ImageShow
+import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
+import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageShow
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
-class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
+class BirdsView(
+    private val createImageHandler: (ImageView) -> ImageHandler
+) : RecyclerView.Adapter<BirdsView.ViewHolder>() {
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
 
@@ -51,6 +54,8 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
         private var onPlayListener: (() -> Unit)? = null
         private var onStopListener: (() -> Unit)? = null
 
+        private lateinit var imageShow: ImageShow
+
         init {
             mSoundButton.setOnClickListener {
                 if(isPlaying) {
@@ -62,8 +67,6 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
         }
 
         override var fillView: (() -> Unit)? = null
-
-        override lateinit var imageShow: ImageShow
 
         override var name: String
             get() = mNameView.text.toString()
@@ -84,8 +87,12 @@ class BirdsView : RecyclerView.Adapter<BirdsView.ViewHolder>() {
             onStopListener = listener
         }
 
+        override fun getImageHandler(): ImageHandler {
+            return createImageHandler(mImageView).also { imageShow = it }
+        }
+
         override fun showImage() {
-            imageShow.showImage(mImageView)
+            imageShow.showImage()
         }
 
         override fun toString(): String {

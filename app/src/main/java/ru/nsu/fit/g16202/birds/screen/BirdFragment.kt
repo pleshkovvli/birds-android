@@ -15,7 +15,7 @@ import com.example.birdsandroid.R
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
-import ru.nsu.fit.g16202.birds.bird.ImageHandler
+import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdPresenter
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
@@ -50,7 +50,13 @@ class BirdFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
 
-                val birdsView = BirdsView()
+                val birdsView = BirdsView { imageView ->
+                    GlideImageHandler(imageView) {
+                        Glide.with(
+                            this@BirdFragment
+                        )
+                    }
+                }
                 adapter = birdsView
 
                 val birdsInteractor = BirdsInteractor { soundPlayer }
@@ -59,7 +65,6 @@ class BirdFragment : Fragment() {
                     val birdInteractor = birdsInteractor.createBirdInteractor(pos)
                     birdsPresenters.add(
                         BirdPresenter(birdInteractor, birdView)
-                        { ImageHandler { Glide.with(this@BirdFragment) } }
                     )
                 }
             }
