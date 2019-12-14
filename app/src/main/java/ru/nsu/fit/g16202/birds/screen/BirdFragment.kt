@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.birdsandroid.R
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
@@ -51,22 +52,18 @@ class BirdFragment : Fragment() {
                 }
 
                 val birdsView = BirdsView { imageView ->
-                    GlideImageHandler(imageView) {
-                        Glide.with(
-                            this@BirdFragment
-                        )
-                    }
+                    GlideImageHandler(imageView) { Glide.with(this@BirdFragment) }
                 }
                 adapter = birdsView
 
-                val birdsInteractor = BirdsInteractor { soundPlayer }
-                birdsPresenter = BirdsPresenter(birdsInteractor, birdsView)
-                { birdView: BirdView, pos: Int ->
-                    val birdInteractor = birdsInteractor.createBirdInteractor(pos)
-                    birdsPresenters.add(
-                        BirdPresenter(birdInteractor, birdView)
-                    )
-                }
+                val birdsInteractor = BirdsInteractor(MediaPlayerSoundHandler { soundPlayer })
+                birdsPresenter =
+                    BirdsPresenter(birdsInteractor, birdsView) { birdView: BirdView, pos: Int ->
+                        val birdInteractor = birdsInteractor.createBirdInteractor(pos)
+                        birdsPresenters.add(
+                            BirdPresenter(birdInteractor, birdView)
+                        )
+                    }
             }
         }
         return view
