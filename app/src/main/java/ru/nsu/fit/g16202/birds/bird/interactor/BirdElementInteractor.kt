@@ -1,12 +1,11 @@
 package ru.nsu.fit.g16202.birds.bird.interactor
 
-import kotlinx.coroutines.*
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageLoader
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 class BirdElementInteractor(
     private val getBird: () -> Bird,
-    private val play: () -> Unit,
+    private val play: (suspend () -> Unit) -> Unit,
     private val stop: () -> Unit,
     private val preparePlay: () -> Unit
 ) : BirdInteractor {
@@ -16,18 +15,15 @@ class BirdElementInteractor(
 
     private var onPlayListener: (() -> Unit)? = null
     private var onStopListener: (() -> Unit)? = null
-    private var onSoundLoadedListener: (() -> Unit)? = null
+    private var onSoundLoadedListener: (suspend () -> Unit)? = null
 
     override lateinit var imageLoader: ImageLoader
 
     override fun playSound() {
         onPlayListener?.invoke()
         preparePlay()
-        CoroutineScope(Dispatchers.IO).launch {
-            play()
-            withContext(Dispatchers.Main) {
-                onSoundLoadedListener?.invoke()
-            }
+        play {
+            onSoundLoadedListener?.invoke()
         }
     }
 
@@ -48,7 +44,7 @@ class BirdElementInteractor(
         onStopListener = listener
     }
 
-    override fun setOnSoundLoadedListener(listener: () -> Unit) {
+    override fun setOnSoundLoadedListener(listener: suspend () -> Unit) {
         onSoundLoadedListener = listener
     }
 }

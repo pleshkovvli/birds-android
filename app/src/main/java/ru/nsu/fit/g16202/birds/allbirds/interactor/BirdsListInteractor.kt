@@ -1,5 +1,8 @@
 package ru.nsu.fit.g16202.birds.allbirds.interactor
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.SoundHandler
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
@@ -19,7 +22,12 @@ class BirdsListInteractor(
     override fun createBirdInteractor(position: Int): BirdInteractor {
         return BirdElementInteractor(
             { birds[position] },
-            { playBirdSound(birds[position].soundUri) },
+            { afterPlay ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    playBirdSound(birds[position].soundUri)
+                    afterPlay()
+                }
+            },
             { stopBirdSound() },
             {
                 interactors.forEach { currentInteractor ->

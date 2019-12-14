@@ -15,7 +15,7 @@ interface BirdView {
 
     fun loadSound()
 
-    fun playSound()
+    suspend fun playSound()
     fun stopSound()
 
     fun showImage()

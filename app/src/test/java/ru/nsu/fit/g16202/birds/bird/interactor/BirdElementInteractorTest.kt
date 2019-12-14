@@ -1,5 +1,6 @@
 package ru.nsu.fit.g16202.birds.bird.interactor
 
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 import ru.nsu.fit.g16202.birds.MockedSoundHandler
@@ -15,7 +16,10 @@ class BirdElementInteractorTest {
         val bird = repository.birds[1]
         val interactor = BirdElementInteractor(
             { bird },
-            { soundHandler.play() },
+            { afterPlay ->
+                soundHandler.play()
+                runBlocking { afterPlay() }
+            },
             { soundHandler.stop() },
             { soundHandler.load(bird.soundUri) }
         )
@@ -35,11 +39,11 @@ class BirdElementInteractorTest {
         assertFalse(stopped)
 
         interactor.playSound()
-        Thread.sleep(500)
+        //Thread.sleep(500)
         assertTrue(soundHandler.isPlaying())
         assertTrue(played)
-        assertFalse(loaded)
-        assertTrue(played)
+        assertTrue(loaded)
+        assertFalse(stopped)
 
         interactor.stopSound()
         assertTrue(!soundHandler.isPlaying())

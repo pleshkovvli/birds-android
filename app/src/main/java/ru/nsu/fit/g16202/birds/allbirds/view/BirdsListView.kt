@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageShow
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
@@ -102,7 +104,7 @@ class BirdsListView(
             mSoundButton.setImageResource(R.drawable.ic_placeholder)
         }
 
-        override fun playSound() {
+        override suspend fun playSound() = withContext(Dispatchers.Main) {
             if(isLoading) {
                 isPlaying = true
                 isLoading = false
