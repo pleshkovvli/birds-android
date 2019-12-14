@@ -17,6 +17,7 @@ import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsListInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsListPresenter
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
+import ru.nsu.fit.g16202.birds.allbirds.repository.MockedBirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsListView
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
 import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
@@ -60,8 +61,10 @@ class BirdFragment : Fragment() {
                     GlideImageHandler(imageView) { Glide.with(this@BirdFragment) }
                 }.also { adapter = it }
 
-                val birdsInteractor : BirdsInteractor
-                        = BirdsListInteractor(MediaPlayerSoundHandler { soundPlayer })
+                val birdsInteractor : BirdsInteractor = BirdsListInteractor(
+                    MockedBirdsRepository,
+                    MediaPlayerSoundHandler { soundPlayer }
+                )
 
                 birdsPresenter = createBirdsPresenter(birdsInteractor, birdsView)
             }

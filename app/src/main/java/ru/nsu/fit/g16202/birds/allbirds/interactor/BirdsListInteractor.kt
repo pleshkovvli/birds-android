@@ -1,13 +1,16 @@
 package ru.nsu.fit.g16202.birds.allbirds.interactor
 
-import ru.nsu.fit.g16202.birds.allbirds.soundhandler.SoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.SoundHandler
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 import ru.nsu.fit.g16202.birds.bird.interactor.BirdElementInteractor
 import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 
-class BirdsListInteractor(private val soundHandler: SoundHandler) : BirdsInteractor {
-    private val birds: List<Bird> = BirdsRepository.birds
+class BirdsListInteractor(
+    private val birdsRepository: BirdsRepository,
+    private val soundHandler: SoundHandler
+) : BirdsInteractor {
+    private val birds: List<Bird> = birdsRepository.birds
 
     private val interactors: MutableMap<String, BirdInteractor> = mutableMapOf()
 
