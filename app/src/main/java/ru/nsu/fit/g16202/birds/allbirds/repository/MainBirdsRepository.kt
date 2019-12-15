@@ -5,8 +5,7 @@ import com.github.kittinunf.fuel.httpGet
 import kotlinx.coroutines.*
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
-object MainBirdsRepository : BirdsRepository {
-    private const val endpoint = "http://10.0.2.2:8080/api/v1/birds"
+class MainBirdsRepository(private val endpoint: String) : BirdsRepository {
 
     private val birdsWaited: Deferred<List<Bird>?>
 
