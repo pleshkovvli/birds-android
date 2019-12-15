@@ -3,7 +3,6 @@ package ru.nsu.fit.g16202.birds.allbirds.view
 import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
@@ -13,6 +12,11 @@ import org.junit.Rule
 import org.junit.Test
 import ru.nsu.fit.g16202.birds.screen.BirdFragment
 import ru.nsu.fit.g16202.birds.screen.MainActivity
+import androidx.test.espresso.ViewAction
+import android.view.View
+import android.widget.ImageButton
+import androidx.test.espresso.UiController
+import org.hamcrest.Matcher
 
 
 class BirdsListViewTest {
@@ -28,50 +32,68 @@ class BirdsListViewTest {
 
     @Test
     fun getItemCount() {
-        activityRule.activity.runOnUiThread {
-            //startFragment()
-        }
-
         val fragmentArgs = Bundle().apply {
             putInt("selectedListItem", 0)
         }
 
         launchFragmentInContainer<BirdFragment>(fragmentArgs)
 
+        fun clickOnSoundButton() = object : ViewAction {
+            override fun getConstraints(): Matcher<View>? {
+                return null
+            }
+
+            override fun getDescription(): String {
+                return "Click on a child view with specified id."
+            }
+
+            override fun perform(uiController: UiController, view: View) {
+                val v = view.findViewById(R.id.sound_image) as ImageButton
+                v.performClick()
+            }
+        }
+
         Thread.sleep(4000)
 
         onView(withId(R.id.birds_list))
-            .perform(RecyclerViewActions
-                .actionOnItemAtPosition<BirdsListView.ViewHolder>(0, click())
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(0, clickOnSoundButton())
             )
 
         Thread.sleep(4000)
 
         onView(withId(R.id.birds_list))
-            .perform(RecyclerViewActions
-                .actionOnItemAtPosition<BirdsListView.ViewHolder>(0, click())
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(0, clickOnSoundButton())
             )
 
         Thread.sleep(1000)
 
         onView(withId(R.id.birds_list))
-            .perform(RecyclerViewActions
-                .actionOnItemAtPosition<BirdsListView.ViewHolder>(1, click())
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(1, clickOnSoundButton())
             )
 
-        Thread.sleep(100)
+        Thread.sleep(700)
 
         onView(withId(R.id.birds_list))
-            .perform(RecyclerViewActions
-                .actionOnItemAtPosition<BirdsListView.ViewHolder>(2, click())
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(2, clickOnSoundButton())
             )
 
         Thread.sleep(4000)
 
         onView(withId(R.id.birds_list))
-            .perform(RecyclerViewActions
-                .actionOnItemAtPosition<BirdsListView.ViewHolder>(3, click())
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(3, clickOnSoundButton())
             )
+
+        Thread.sleep(4000)
     }
 
 }
