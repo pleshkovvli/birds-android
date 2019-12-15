@@ -42,11 +42,21 @@ class BirdsListInteractorTest {
         val birdsRepository = MockedBirdsRepository
 
         val interactor = BirdsListInteractor(birdsRepository, soundHandler)
+
+        val oneBirdInteractor = interactor.createBirdInteractor(5)
+        soundHandler.load(oneBirdInteractor.bird.soundUri)
+        soundHandler.play()
+
+        oneBirdInteractor.playSound()
+        Thread.sleep(500)
+        Assert.assertTrue(soundHandler.isPlaying())
+
+
         val positions = listOf(1,2,3,4)
 
         val birdInteractors = positions.map { pos ->
             interactor.createBirdInteractor(pos)
-        }
+        }.toMutableList().also { it.add(oneBirdInteractor) }
 
         birdInteractors.forEach { birdInteractor ->
             birdInteractor.playSound()
