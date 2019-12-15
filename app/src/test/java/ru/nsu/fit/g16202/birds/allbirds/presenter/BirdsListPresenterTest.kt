@@ -61,6 +61,10 @@ class BirdsListPresenterTest {
                 listener: (() -> Unit)?
             ) = throw NotImplementedError()
 
+            override fun setOnLoadImageListener(
+                listener: (() -> Unit)?
+            ) = throw NotImplementedError()
+
             override fun loadSound() = throw NotImplementedError()
             override suspend fun playSound() = throw NotImplementedError()
 

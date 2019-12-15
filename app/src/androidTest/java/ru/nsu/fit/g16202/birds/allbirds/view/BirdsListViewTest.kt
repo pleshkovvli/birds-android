@@ -121,7 +121,18 @@ class BirdsListViewTest {
                     )
             )
 
+        onView(withId(R.id.birds_list))
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        1, clickOnViewById(R.id.item_image)
+                    )
+            )
+
         Thread.sleep(4000)
+
+        onView(withId(R.id.full_image))
+            .perform(click())
 
         onView(withId(R.id.birds_list))
             .perform(
