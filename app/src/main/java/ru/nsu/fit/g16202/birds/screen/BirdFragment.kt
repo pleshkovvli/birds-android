@@ -3,6 +3,7 @@ package ru.nsu.fit.g16202.birds.screen
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
