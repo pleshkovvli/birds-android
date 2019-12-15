@@ -27,6 +27,7 @@ import ru.nsu.fit.g16202.birds.bird.presenter.BirdPresenter
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdFragment : Fragment() {
+    var repositoryProvider: RepositoryProvider? = null
 
     private var columnCount = 1
 
@@ -50,6 +51,8 @@ class BirdFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bird_list, container, false)
 
+        val repository = repositoryProvider?.repository ?: MainBirdsRepository
+
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
@@ -62,7 +65,7 @@ class BirdFragment : Fragment() {
                 }.also { adapter = it }
 
                 val birdsInteractor : BirdsInteractor = BirdsListInteractor(
-                    MainBirdsRepository,
+                    repository,
                     MediaPlayerSoundHandler { soundPlayer }
                 )
 

@@ -15,8 +15,12 @@ import ru.nsu.fit.g16202.birds.screen.MainActivity
 import androidx.test.espresso.ViewAction
 import android.view.View
 import android.widget.ImageButton
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.UiController
 import org.hamcrest.Matcher
+import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.screen.RepositoryProvider
 
 
 class BirdsListViewTest {
@@ -36,7 +40,18 @@ class BirdsListViewTest {
             putInt("selectedListItem", 0)
         }
 
-        launchFragmentInContainer<BirdFragment>(fragmentArgs)
+        val fragmentFactory = object : FragmentFactory() {
+            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+                val fragment = super.instantiate(classLoader, className) as BirdFragment
+                fragment.repositoryProvider = object : RepositoryProvider {
+                    override val repository: BirdsRepository? = MockedBirdsRepository
+                }
+
+                return fragment
+            }
+        }
+
+        launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
 
         fun clickOnSoundButton() = object : ViewAction {
             override fun getConstraints(): Matcher<View>? {
