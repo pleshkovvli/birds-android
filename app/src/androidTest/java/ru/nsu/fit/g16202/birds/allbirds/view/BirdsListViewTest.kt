@@ -83,7 +83,7 @@ class BirdsListViewTest {
             .perform(
                 RecyclerViewActions
                     .actionOnItemAtPosition<BirdsListView.ViewHolder>(
-                        0, clickOnViewById(R.id.content)
+                        1, clickOnViewById(R.id.content)
                     )
             )
 
