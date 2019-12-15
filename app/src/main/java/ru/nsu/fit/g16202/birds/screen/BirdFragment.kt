@@ -29,21 +29,11 @@ import ru.nsu.fit.g16202.birds.bird.view.BirdView
 class BirdFragment : Fragment() {
     var repositoryProvider: RepositoryProvider? = null
 
-    private var columnCount = 1
-
     private var soundPlayer: MediaPlayer? = null
 
     private lateinit var birdsPresenter: BirdsPresenter
 
     private val birdsPresenters: MutableList<BirdPresenter> = mutableListOf()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,10 +45,7 @@ class BirdFragment : Fragment() {
 
         if (view is RecyclerView) {
             with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
+                layoutManager = LinearLayoutManager(context)
 
                 val birdsView : BirdsView = BirdsListView { imageView ->
                     GlideImageHandler(imageView) { Glide.with(this@BirdFragment) }
@@ -100,17 +87,4 @@ class BirdFragment : Fragment() {
         soundPlayer = null
     }
 
-
-    companion object {
-
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            BirdFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
-    }
 }
