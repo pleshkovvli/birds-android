@@ -84,7 +84,7 @@ class BirdsListView(
                 val popupView = inflater!!.inflate(R.layout.description_popup, null)
 
                 val popupWindow = createPopupWindow(popupView)
-                popupView.description.text = mContentView.text
+                popupView.description.text = description
 
                 popupView.setOnTouchListener { _, _ ->
                     popupWindow.dismiss()
@@ -122,14 +122,14 @@ class BirdsListView(
 
         override var fillView: (() -> Unit)? = null
 
-        override var name: String
-            get() = mNameView.text.toString()
+        override var name: String = ""
             set(value) {
+                field = value
                 mNameView.text = value
             }
-        override var description: String
-            get() = mContentView.text.toString()
+        override var description: String = ""
             set(value) {
+                field = value
                 mContentView.text = value
             }
 
