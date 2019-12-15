@@ -139,7 +139,7 @@ class BirdElementPresenterTest {
 
 
         assertEquals(oneBird.description, view.description)
-        assertEquals(oneBird.speciesName, view.name)
+        assertEquals(oneBird.name, view.name)
 
         assertTrue(interactor.imageLoaderSet)
         assertTrue(interactor.imageLoaded)

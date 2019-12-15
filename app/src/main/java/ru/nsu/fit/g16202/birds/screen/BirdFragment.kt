@@ -3,7 +3,6 @@ package ru.nsu.fit.g16202.birds.screen
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsListInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsListPresenter
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
-import ru.nsu.fit.g16202.birds.allbirds.repository.MockedBirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsListView
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
 import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
@@ -63,7 +62,7 @@ class BirdFragment : Fragment() {
                 }.also { adapter = it }
 
                 val birdsInteractor : BirdsInteractor = BirdsListInteractor(
-                    MockedBirdsRepository,
+                    MainBirdsRepository,
                     MediaPlayerSoundHandler { soundPlayer }
                 )
 

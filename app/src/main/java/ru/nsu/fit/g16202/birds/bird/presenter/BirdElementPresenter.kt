@@ -11,7 +11,7 @@ class BirdElementPresenter(
     override fun bindViewWithInteractor() {
         view.fillView = {
             view.description = interactor.bird.description
-            view.name = interactor.bird.speciesName
+            view.name = interactor.bird.name
             view.setOnPlaySoundListener { interactor.playSound() }
             view.setOnStopSoundListener { interactor.stopSound() }
 
