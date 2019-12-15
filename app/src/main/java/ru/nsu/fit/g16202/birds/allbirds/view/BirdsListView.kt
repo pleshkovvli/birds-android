@@ -8,13 +8,19 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageShow
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
+import android.view.Gravity
+import android.widget.PopupWindow
+import android.widget.LinearLayout
+import android.content.Context.LAYOUT_INFLATER_SERVICE
+import com.example.birdsandroid.R
+import kotlinx.android.synthetic.main.description_popup.view.*
+
 
 class BirdsListView(
     private val createImageHandler: (ImageView) -> ImageHandler
@@ -62,6 +68,24 @@ class BirdsListView(
                     onStopListener?.invoke()
                 } else {
                     onPlayListener?.invoke()
+                }
+            }
+
+            mContentView.setOnClickListener {
+                val inflater = mView.context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+                val popupView = inflater!!.inflate(R.layout.description_popup, null)
+
+                val width = LinearLayout.LayoutParams.WRAP_CONTENT
+                val height = LinearLayout.LayoutParams.WRAP_CONTENT
+                val focusable = true
+                val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+                popupWindow.showAtLocation(mView, Gravity.CENTER, 0, 0)
+                popupView.description.text = mContentView.text
+
+                popupView.setOnTouchListener { _, _ ->
+                    popupWindow.dismiss()
+                    true
                 }
             }
         }
