@@ -22,6 +22,8 @@ import androidx.test.espresso.action.ViewActions.click
 import org.hamcrest.Matcher
 import org.junit.Assert
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
+import ru.nsu.fit.g16202.birds.bird.entity.Bird
 import ru.nsu.fit.g16202.birds.screen.RepositoryProvider
 
 
@@ -177,6 +179,31 @@ class BirdsListViewTest {
         }
 
         launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
+    }
+
+    @Test
+    fun testNetworkFail() {
+        val fragmentArgs = Bundle().apply {
+            putInt("selectedListItem", 0)
+        }
+
+        val fragmentFactory = object : FragmentFactory() {
+            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+                val fragment = super.instantiate(classLoader, className) as BirdFragment
+                fragment.repositoryProvider = object : RepositoryProvider {
+                    override val repository: BirdsRepository? = object : BirdsRepository {
+                        override val birds: List<Bird>
+                            get() = throw Exception()
+                    }
+                }
+
+                return fragment
+            }
+        }
+
+        launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
+
+        Thread.sleep(5000)
     }
 
 }
