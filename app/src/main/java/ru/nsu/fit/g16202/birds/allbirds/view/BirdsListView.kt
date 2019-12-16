@@ -80,16 +80,11 @@ class BirdsListView(
             }
 
             mContentView.setOnClickListener {
-                val inflater = mView.context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-                val popupView = inflater!!.inflate(R.layout.description_popup, null)
+                createTextPopup(description)
+            }
 
-                val popupWindow = createPopupWindow(popupView)
-                popupView.description.text = description
-
-                popupView.setOnTouchListener { _, _ ->
-                    popupWindow.dismiss()
-                    true
-                }
+            mNameView.setOnClickListener {
+                createTextPopup(name)
             }
 
             mImageView.setOnClickListener {
@@ -107,6 +102,20 @@ class BirdsListView(
                     popupWindow.dismiss()
                     true
                 }
+            }
+        }
+
+        private fun createTextPopup(value: String) {
+            val inflater =
+                mView.context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+            val popupView = inflater!!.inflate(R.layout.description_popup, null)
+
+            val popupWindow = createPopupWindow(popupView)
+            popupView.description.text = value
+
+            popupView.setOnTouchListener { _, _ ->
+                popupWindow.dismiss()
+                true
             }
         }
 
