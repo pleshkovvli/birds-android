@@ -8,16 +8,26 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.birdsandroid.R
 import kotlinx.android.synthetic.main.fragment_bird.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageShow
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
+import android.view.Gravity
+import android.widget.PopupWindow
+import android.widget.LinearLayout
+import android.content.Context.LAYOUT_INFLATER_SERVICE
+import kotlinx.android.synthetic.main.description_popup.view.*
+import kotlinx.android.synthetic.main.image_popup.view.*
+import android.graphics.drawable.BitmapDrawable
+import com.example.birdsandroid.R
+
+
+
 
 class BirdsListView(
-    private val createImageHandler: (ImageView) -> ImageHandler
+    private val createImageHandler: (() -> ImageView) -> ImageHandler
 ) : BirdsView, RecyclerView.Adapter<BirdsListView.ViewHolder>() {
 
     private var onBindBirdViewListener: ((BirdView, Int) -> Unit)? = null
@@ -48,11 +58,15 @@ class BirdsListView(
         private val mContentView: TextView = mView.content
         private val mSoundButton: ImageButton = mView.sound_image
 
+        private var imageToShow: ImageView = mImageView
+
         private var isPlaying: Boolean = false
         private var isLoading: Boolean = false
 
         private var onPlayListener: (() -> Unit)? = null
         private var onStopListener: (() -> Unit)? = null
+
+        private var onLoadImage: (() -> Unit)? = null
 
         private lateinit var imageShow: ImageShow
 
@@ -64,18 +78,67 @@ class BirdsListView(
                     onPlayListener?.invoke()
                 }
             }
+
+            mContentView.setOnClickListener {
+                createTextPopup(description)
+            }
+
+            mNameView.setOnClickListener {
+                createTextPopup(name)
+            }
+
+            mImageView.setOnClickListener {
+                val inflater = mView.context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+                val popupView = inflater!!.inflate(R.layout.image_popup, null)
+
+                val popupWindow = createPopupWindow(popupView)
+
+                imageToShow = popupView.full_image
+                onLoadImage?.invoke()
+                showImage()
+                imageToShow = mImageView
+
+                popupView.setOnTouchListener { _, _ ->
+                    popupWindow.dismiss()
+                    true
+                }
+            }
+        }
+
+        private fun createTextPopup(value: String) {
+            val inflater =
+                mView.context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+            val popupView = inflater!!.inflate(R.layout.description_popup, null)
+
+            val popupWindow = createPopupWindow(popupView)
+            popupView.description.text = value
+
+            popupView.setOnTouchListener { _, _ ->
+                popupWindow.dismiss()
+                true
+            }
+        }
+
+        private fun createPopupWindow(popupView: View?): PopupWindow {
+            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+            val focusable = true
+            val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+            popupWindow.showAtLocation(mView, Gravity.CENTER, 0, 0)
+            return popupWindow
         }
 
         override var fillView: (() -> Unit)? = null
 
-        override var name: String
-            get() = mNameView.text.toString()
+        override var name: String = ""
             set(value) {
+                field = value
                 mNameView.text = value
             }
-        override var description: String
-            get() = mContentView.text.toString()
+        override var description: String = ""
             set(value) {
+                field = value
                 mContentView.text = value
             }
 
@@ -87,17 +150,18 @@ class BirdsListView(
             onStopListener = listener
         }
 
+        override fun setOnLoadImageListener(listener: (() -> Unit)?) {
+            onLoadImage = listener
+        }
+
         override fun getImageHandler(): ImageHandler {
-            return createImageHandler(mImageView).also { imageShow = it }
+            return createImageHandler { imageToShow }.also { imageShow = it }
         }
 
         override fun showImage() {
             imageShow.showImage()
         }
 
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
-        }
 
         override fun loadSound() {
             isLoading = true

@@ -12,6 +12,7 @@ interface BirdView {
 
     fun setOnPlaySoundListener(listener: (() -> Unit)?)
     fun setOnStopSoundListener(listener: (() -> Unit)?)
+    fun setOnLoadImageListener(listener: (() -> Unit)?)
 
     fun loadSound()
 

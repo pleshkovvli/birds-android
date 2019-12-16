@@ -6,7 +6,7 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 
 class GlideImageHandler(
-    private val imageView: ImageView,
+    private val imageView: () -> ImageView,
     private val getManager: () -> RequestManager
 ) : ImageHandler {
     private lateinit var requestBuilder : RequestBuilder<Drawable>
@@ -18,6 +18,6 @@ class GlideImageHandler(
     override fun showImage() {
         requestBuilder
             .centerCrop()
-            .into(imageView)
+            .into(imageView())
     }
 }

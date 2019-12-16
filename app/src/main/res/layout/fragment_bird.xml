@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="horizontal">
 
     <ImageView
@@ -18,17 +19,25 @@
 
     <TextView
         android:id="@+id/item_name"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/text_margin"
+        android:paddingBottom="@dimen/text_margin"
         android:width="@dimen/name_width"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/content"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:paddingTop="@dimen/text_margin"
+        android:paddingBottom="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <View

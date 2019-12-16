@@ -18,8 +18,12 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.UiController
+import androidx.test.espresso.action.ViewActions.click
 import org.hamcrest.Matcher
+import org.junit.Assert
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
+import ru.nsu.fit.g16202.birds.bird.entity.Bird
 import ru.nsu.fit.g16202.birds.screen.RepositoryProvider
 
 
@@ -35,7 +39,7 @@ class BirdsListViewTest {
     }
 
     @Test
-    fun getItemCount() {
+    fun testSounds() {
         val fragmentArgs = Bundle().apply {
             putInt("selectedListItem", 0)
         }
@@ -53,7 +57,7 @@ class BirdsListViewTest {
 
         launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
 
-        fun clickOnSoundButton() = object : ViewAction {
+        fun clickOnViewById(viewId: Int) = object : ViewAction {
             override fun getConstraints(): Matcher<View>? {
                 return null
             }
@@ -63,7 +67,7 @@ class BirdsListViewTest {
             }
 
             override fun perform(uiController: UiController, view: View) {
-                val v = view.findViewById(R.id.sound_image) as ImageButton
+                val v: View = view.findViewById(viewId)
                 v.performClick()
             }
         }
@@ -73,42 +77,133 @@ class BirdsListViewTest {
         onView(withId(R.id.birds_list))
             .perform(
                 RecyclerViewActions
-                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(0, clickOnSoundButton())
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        0, clickOnViewById(R.id.sound_image)
+                    )
             )
-
-        Thread.sleep(4000)
 
         onView(withId(R.id.birds_list))
             .perform(
                 RecyclerViewActions
-                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(0, clickOnSoundButton())
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        1, clickOnViewById(R.id.content)
+                    )
             )
+
+        Thread.sleep(4000)
+
+        onView(withId(R.id.description))
+            .perform(click())
+
+        onView(withId(R.id.birds_list))
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        0, clickOnViewById(R.id.sound_image)
+                    )
+            )
+
 
         Thread.sleep(1000)
 
         onView(withId(R.id.birds_list))
             .perform(
                 RecyclerViewActions
-                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(1, clickOnSoundButton())
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        1, clickOnViewById(R.id.sound_image)
+                    )
             )
+
+        onView(withId(R.id.birds_list))
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        1, clickOnViewById(R.id.item_name)
+                    )
+            )
+
+        Thread.sleep(1000)
+
+        onView(withId(R.id.description))
+            .perform(click())
 
         Thread.sleep(700)
 
         onView(withId(R.id.birds_list))
             .perform(
                 RecyclerViewActions
-                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(2, clickOnSoundButton())
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        2, clickOnViewById(R.id.sound_image)
+                    )
             )
-
-        Thread.sleep(4000)
 
         onView(withId(R.id.birds_list))
             .perform(
                 RecyclerViewActions
-                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(3, clickOnSoundButton())
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        1, clickOnViewById(R.id.item_image)
+                    )
             )
 
         Thread.sleep(4000)
+
+        onView(withId(R.id.full_image))
+            .perform(click())
+
+        onView(withId(R.id.birds_list))
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        3, clickOnViewById(R.id.sound_image)
+                    )
+            )
+
+        Thread.sleep(4000)
+    }
+
+    @Test
+    fun testNullRepository() {
+        val fragmentArgs = Bundle().apply {
+            putInt("selectedListItem", 0)
+        }
+
+        val fragmentFactory = object : FragmentFactory() {
+            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+                val fragment = super.instantiate(classLoader, className) as BirdFragment
+                fragment.repositoryProvider = object : RepositoryProvider {
+                    override val repository: BirdsRepository? = null
+                }
+
+                return fragment
+            }
+        }
+
+        launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
+    }
+
+    @Test
+    fun testNetworkFail() {
+        val fragmentArgs = Bundle().apply {
+            putInt("selectedListItem", 0)
+        }
+
+        val fragmentFactory = object : FragmentFactory() {
+            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+                val fragment = super.instantiate(classLoader, className) as BirdFragment
+                fragment.repositoryProvider = object : RepositoryProvider {
+                    override val repository: BirdsRepository? = object : BirdsRepository {
+                        override val birds: List<Bird>
+                            get() = throw Exception()
+                    }
+                }
+
+                return fragment
+            }
+        }
+
+        launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
+
+        Thread.sleep(5000)
     }
 
 }

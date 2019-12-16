@@ -71,6 +71,7 @@ class BirdElementPresenterTest {
         val view = object : BirdView {
             var onPlayListenerSet = false
             var onStopListenerSet = false
+            var onLoadImageListenerSet = false
 
             var imageShow = false
 
@@ -90,6 +91,10 @@ class BirdElementPresenterTest {
                 override fun showImage() {
                     throw NotImplementedError()
                 }
+            }
+
+            override fun setOnLoadImageListener(listener: (() -> Unit)?) {
+                onLoadImageListenerSet = true
             }
 
             override fun setOnPlaySoundListener(listener: (() -> Unit)?) {
@@ -127,6 +132,7 @@ class BirdElementPresenterTest {
         assertFalse(interactor.stopped)
         assertFalse(interactor.loaded)
 
+        assertFalse(view.onLoadImageListenerSet)
         assertFalse(view.onPlayListenerSet)
         assertFalse(view.onStopListenerSet)
         assertFalse(view.imageShow)
@@ -141,6 +147,7 @@ class BirdElementPresenterTest {
         assertEquals(oneBird.description, view.description)
         assertEquals(oneBird.name, view.name)
 
+        assertTrue(view.onLoadImageListenerSet)
         assertTrue(interactor.imageLoaderSet)
         assertTrue(interactor.imageLoaded)
         assertTrue(interactor.onPlayListenerSet)

@@ -11,9 +11,15 @@ import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 
 class BirdsListInteractor(
     private val birdsRepository: BirdsRepository,
-    private val soundHandler: SoundHandler
+    private val soundHandler: SoundHandler,
+    private val onBirdsLoadingFailed: () -> Unit
 ) : BirdsInteractor {
-    private val birds: List<Bird> = birdsRepository.birds
+    private val birds: List<Bird> = try {
+        birdsRepository.birds
+    } catch (e: Exception) {
+        onBirdsLoadingFailed()
+        emptyList()
+    }
 
     private val interactors: MutableMap<String, BirdInteractor> = mutableMapOf()
 

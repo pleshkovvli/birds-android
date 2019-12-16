@@ -14,6 +14,7 @@ class BirdElementPresenter(
             view.name = interactor.bird.name
             view.setOnPlaySoundListener { interactor.playSound() }
             view.setOnStopSoundListener { interactor.stopSound() }
+            view.setOnLoadImageListener { interactor.loadImage() }
 
             val imageHandler = view.getImageHandler()
             interactor.imageLoader = imageHandler

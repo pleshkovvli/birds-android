@@ -13,7 +13,18 @@ object MockedBirdsRepository : BirdsRepository {
         ),
         Bird(
             "2",
-            "Воробей", "Птица-воробей",
+            "Воробей", """
+                Птица-воробей: длинное описание.
+                Описание.
+                Птица-воробей: длинное описание.
+                Описание.
+                Птица-воробей: длинное описание.
+                Описание.
+                Птица-воробей: длинное описание.
+                Описание.
+                Птица-воробей: длинное описание.
+                Описание.
+                """.trimIndent(),
             "https://images.unsplash.com/photo-1550589677-a611b0e1bc8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
             "https://www.xeno-canto.org/sounds/uploaded/FWAVTDTPIQ/XC143001-Accipiter%20brevi%202-20000516.mp3"
         ),
