@@ -162,9 +162,6 @@ class BirdsListView(
             imageShow.showImage()
         }
 
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
-        }
 
         override fun loadSound() {
             isLoading = true

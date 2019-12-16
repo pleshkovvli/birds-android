@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.UiController
 import androidx.test.espresso.action.ViewActions.click
 import org.hamcrest.Matcher
+import org.junit.Assert
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
 import ru.nsu.fit.g16202.birds.screen.RepositoryProvider
 
@@ -111,6 +112,19 @@ class BirdsListViewTest {
                     )
             )
 
+        onView(withId(R.id.birds_list))
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<BirdsListView.ViewHolder>(
+                        1, clickOnViewById(R.id.item_name)
+                    )
+            )
+
+        Thread.sleep(1000)
+
+        onView(withId(R.id.description))
+            .perform(click())
+
         Thread.sleep(700)
 
         onView(withId(R.id.birds_list))
@@ -143,6 +157,26 @@ class BirdsListViewTest {
             )
 
         Thread.sleep(4000)
+    }
+
+    @Test
+    fun testNullRepository() {
+        val fragmentArgs = Bundle().apply {
+            putInt("selectedListItem", 0)
+        }
+
+        val fragmentFactory = object : FragmentFactory() {
+            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+                val fragment = super.instantiate(classLoader, className) as BirdFragment
+                fragment.repositoryProvider = object : RepositoryProvider {
+                    override val repository: BirdsRepository? = null
+                }
+
+                return fragment
+            }
+        }
+
+        launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
     }
 
 }
