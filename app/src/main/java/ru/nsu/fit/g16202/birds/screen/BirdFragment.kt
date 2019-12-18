@@ -57,18 +57,20 @@ class BirdFragment : Fragment() {
                 val birdsInteractor : BirdsInteractor = BirdsListInteractor(
                     repository,
                     MediaPlayerSoundHandler(context) { soundPlayer }
-                ) {
-                    Toast.makeText(
-                        this@BirdFragment.context,
-                        R.string.loadError,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                ) { showOnListLoadFailedError() }
 
                 birdsPresenter = createBirdsPresenter(birdsInteractor, birdsView)
             }
         }
         return view
+    }
+
+    private fun showOnListLoadFailedError() {
+        Toast.makeText(
+            this@BirdFragment.context,
+            R.string.loadError,
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun createBirdsPresenter(

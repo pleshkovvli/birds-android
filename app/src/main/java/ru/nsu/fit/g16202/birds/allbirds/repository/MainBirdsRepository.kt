@@ -12,6 +12,17 @@ class MainBirdsRepository(
 
     private val birdsWaited: Deferred<List<Bird>?>
 
+    private var listLoaded = false
+
+    override var birds: List<Bird> = emptyList()
+        get() = if (listLoaded) {
+            field
+        } else {
+            listLoaded = true
+            field = runBlocking { birdsWaited.await() } ?: emptyList()
+            field
+        }
+
     init {
         birdsWaited = CoroutineScope(Dispatchers.IO).async {
             val (_, _, result) = allBirdsEndpoint
@@ -25,28 +36,20 @@ class MainBirdsRepository(
                 is com.github.kittinunf.result.Result.Success -> {
                     val data: String = result.get()
                     val apiBirds = Klaxon().parse<BirdsAPI>(data)!!.birds
-                    apiBirds?.map {
-                        Bird(
-                            it.id,
-                            it.name,
-                            it.description,
-                            "$fileEndpoint/${it.imageFileId}",
-                            "$fileEndpoint/${it.audioFileId}"
-                        )
-                    }
+
+                    apiBirds.map { birdFromAPI(it) }
                 }
             }
         }
     }
 
+    private fun birdFromAPI(apiBird: BirdAPI): Bird = Bird(
+        apiBird.id,
+        apiBird.name,
+        apiBird.description,
+        "$fileEndpoint/${apiBird.imageFileId}",
+        "$fileEndpoint/${apiBird.audioFileId}"
+    )
+
     private class BirdsAPI(val birds: List<BirdAPI>)
-
-    private var listLoaded = false
-
-    override var birds: List<Bird> = emptyList()
-        get() = if(listLoaded) { field } else {
-            listLoaded = true
-            field = runBlocking { birdsWaited.await() } ?: emptyList()
-            field
-        }
 }

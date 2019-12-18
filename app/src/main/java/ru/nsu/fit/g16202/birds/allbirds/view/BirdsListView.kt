@@ -1,29 +1,22 @@
 package ru.nsu.fit.g16202.birds.allbirds.view
 
 
+import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.example.birdsandroid.R
+import kotlinx.android.synthetic.main.description_popup.view.*
 import kotlinx.android.synthetic.main.fragment_bird.view.*
+import kotlinx.android.synthetic.main.image_popup.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageShow
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
-import android.view.Gravity
-import android.widget.PopupWindow
-import android.widget.LinearLayout
-import android.content.Context.LAYOUT_INFLATER_SERVICE
-import kotlinx.android.synthetic.main.description_popup.view.*
-import kotlinx.android.synthetic.main.image_popup.view.*
-import android.graphics.drawable.BitmapDrawable
-import com.example.birdsandroid.R
-
-
 
 
 class BirdsListView(

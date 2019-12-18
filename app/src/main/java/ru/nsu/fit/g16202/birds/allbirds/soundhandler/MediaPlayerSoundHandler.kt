@@ -28,27 +28,13 @@ class MediaPlayerSoundHandler(
             is com.github.kittinunf.result.Result.Success -> {
                 val data: String = result.get()
                 val stringData = Klaxon().parse<AudioHolder>(data)!!.data
+
                 Base64.decode(stringData, Base64.DEFAULT)
             }
         }
 
-        val file = File.createTempFile("prefix","suffix")
-        val fos = FileOutputStream(file)
-        fos.write(byteArray)
-
-        val localUrl = Uri.fromFile(file)
-
-        getPlayer()?.apply {
-            reset()
-            setAudioAttributes(
-                AudioAttributes
-                    .Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-            )
-            setDataSource(context, localUrl)
-            prepare()
-        }
+        val localUrl = getLocalUri(byteArray)
+        getPlayer()?.prepareMediaPlayer(localUrl)
     }
 
 
@@ -58,6 +44,26 @@ class MediaPlayerSoundHandler(
 
     override fun stop() {
         getPlayer()?.stop()
+    }
+
+    private fun getLocalUri(byteArray: ByteArray): Uri {
+        val file = File.createTempFile("prefix", "suffix")
+        val fos = FileOutputStream(file)
+        fos.write(byteArray)
+
+        return Uri.fromFile(file)
+    }
+
+    private fun MediaPlayer.prepareMediaPlayer(localUrl: Uri) {
+        reset()
+        setAudioAttributes(
+            AudioAttributes
+                .Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+        )
+        setDataSource(context, localUrl)
+        prepare()
     }
 
     private class AudioHolder(val data: String)
