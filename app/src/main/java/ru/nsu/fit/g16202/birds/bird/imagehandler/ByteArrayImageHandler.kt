@@ -1,15 +1,13 @@
 package ru.nsu.fit.g16202.birds.bird.imagehandler
 
 import android.graphics.Bitmap
-import android.widget.ImageView
-import com.beust.klaxon.Klaxon
-import com.github.kittinunf.fuel.httpGet
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
+import android.widget.ImageView
+import com.beust.klaxon.Klaxon
+import com.github.kittinunf.fuel.httpGet
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Main
-import java.lang.Exception
 
 
 class ByteArrayImageHandler(
@@ -39,14 +37,8 @@ class ByteArrayImageHandler(
 
     override fun showImage() {
         runBlocking {
-            try {
-                val await = bitmapWaited.await()
-                imageView().setImageBitmap(await)
-                Log.d("HTTPERR", "SUCCESS")
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
+            val await = bitmapWaited.await()
+            imageView().setImageBitmap(await)
         }
     }
 

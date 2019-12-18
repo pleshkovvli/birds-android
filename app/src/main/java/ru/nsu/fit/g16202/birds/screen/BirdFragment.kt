@@ -3,7 +3,6 @@ package ru.nsu.fit.g16202.birds.screen
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +10,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.birdsandroid.R
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
-import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsListInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsListPresenter
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsListView
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ByteArrayImageHandler
-import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
 import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdElementPresenter
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdPresenter
