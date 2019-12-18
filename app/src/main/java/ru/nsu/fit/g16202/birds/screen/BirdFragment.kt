@@ -56,7 +56,7 @@ class BirdFragment : Fragment() {
 
                 val birdsInteractor : BirdsInteractor = BirdsListInteractor(
                     repository,
-                    MediaPlayerSoundHandler { soundPlayer }
+                    MediaPlayerSoundHandler(context) { soundPlayer }
                 ) {
                     Toast.makeText(
                         this@BirdFragment.context,
