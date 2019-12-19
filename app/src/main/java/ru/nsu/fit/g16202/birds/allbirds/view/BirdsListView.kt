@@ -103,13 +103,8 @@ class BirdsListView(
                 mView.context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
             val popupView = inflater!!.inflate(R.layout.description_popup, null)
 
-            val popupWindow = createPopupWindow(popupView)
+            createPopupWindow(popupView)
             popupView.description.text = value
-
-            popupView.setOnTouchListener { _, _ ->
-                popupWindow.dismiss()
-                true
-            }
         }
 
         private fun createPopupWindow(popupView: View?): PopupWindow {

@@ -2,16 +2,25 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:maxHeight="200dp"
+    android:layout_height="200dp"
     android:background="@android:color/background_light">
 
-    <TextView
-        android:id="@+id/description"
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="30dp"
-        android:textColor="@android:color/black"
-        android:textSize="22sp"/>
+        android:layout_height="350dp"
+        android:padding="@dimen/text_margin">
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars = "vertical"
+            android:overScrollMode="always"
+            android:layout_margin="30dp"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"/>
+
+    </ScrollView>
 
 </RelativeLayout>
