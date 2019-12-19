@@ -5,13 +5,27 @@ import com.github.kittinunf.fuel.httpGet
 import kotlinx.coroutines.*
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
-class MainBirdsRepository(private val endpoint: String) : BirdsRepository {
+class MainBirdsRepository(
+    private val allBirdsEndpoint: String,
+    private val fileEndpoint: String
+) : BirdsRepository {
 
     private val birdsWaited: Deferred<List<Bird>?>
 
+    private var listLoaded = false
+
+    override var birds: List<Bird> = emptyList()
+        get() = if (listLoaded) {
+            field
+        } else {
+            listLoaded = true
+            field = runBlocking { birdsWaited.await() } ?: emptyList()
+            field
+        }
+
     init {
         birdsWaited = CoroutineScope(Dispatchers.IO).async {
-            val (request, response, result) = endpoint
+            val (_, _, result) = allBirdsEndpoint
                 .httpGet()
                 .responseString()
 
@@ -21,18 +35,21 @@ class MainBirdsRepository(private val endpoint: String) : BirdsRepository {
                 }
                 is com.github.kittinunf.result.Result.Success -> {
                     val data: String = result.get()
-                    Klaxon().parseArray<Bird>(data)
+                    val apiBirds = Klaxon().parse<BirdsAPI>(data)!!.birds
+
+                    apiBirds.map { birdFromAPI(it) }
                 }
             }
         }
     }
 
-    private var listLoaded = false
+    private fun birdFromAPI(apiBird: BirdAPI): Bird = Bird(
+        apiBird.id,
+        apiBird.name,
+        apiBird.description,
+        "$fileEndpoint/${apiBird.imageFileId}",
+        "$fileEndpoint/${apiBird.audioFileId}"
+    )
 
-    override var birds: List<Bird> = emptyList()
-        get() = if(listLoaded) { field } else {
-            listLoaded = true
-            field = runBlocking { birdsWaited.await() } ?: emptyList()
-            field
-        }
+    private class BirdsAPI(val birds: List<BirdAPI>)
 }

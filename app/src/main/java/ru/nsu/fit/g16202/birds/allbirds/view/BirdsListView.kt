@@ -1,29 +1,20 @@
 package ru.nsu.fit.g16202.birds.allbirds.view
 
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.view.*
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.example.birdsandroid.R
+import kotlinx.android.synthetic.main.description_popup.view.*
 import kotlinx.android.synthetic.main.fragment_bird.view.*
+import kotlinx.android.synthetic.main.image_popup.view.*
+import kotlinx.android.synthetic.main.name_popup.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageShow
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
-import android.view.Gravity
-import android.widget.PopupWindow
-import android.widget.LinearLayout
-import android.content.Context.LAYOUT_INFLATER_SERVICE
-import kotlinx.android.synthetic.main.description_popup.view.*
-import kotlinx.android.synthetic.main.image_popup.view.*
-import android.graphics.drawable.BitmapDrawable
-import com.example.birdsandroid.R
-
-
 
 
 class BirdsListView(
@@ -80,11 +71,13 @@ class BirdsListView(
             }
 
             mContentView.setOnClickListener {
-                createTextPopup(description)
+                val popupView = createTextPopup(R.layout.description_popup)
+                popupView.description.text = description
             }
 
             mNameView.setOnClickListener {
-                createTextPopup(name)
+                val popupView = createTextPopup(R.layout.name_popup)
+                popupView.name.text = name
             }
 
             mImageView.setOnClickListener {
@@ -105,18 +98,13 @@ class BirdsListView(
             }
         }
 
-        private fun createTextPopup(value: String) {
+        private fun createTextPopup(layoutId: Int) : View {
             val inflater =
                 mView.context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-            val popupView = inflater!!.inflate(R.layout.description_popup, null)
+            val popupView = inflater!!.inflate(layoutId, null)
 
-            val popupWindow = createPopupWindow(popupView)
-            popupView.description.text = value
-
-            popupView.setOnTouchListener { _, _ ->
-                popupWindow.dismiss()
-                true
-            }
+            createPopupWindow(popupView)
+            return popupView
         }
 
         private fun createPopupWindow(popupView: View?): PopupWindow {

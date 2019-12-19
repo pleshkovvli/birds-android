@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
     android:gravity="center"
     android:orientation="horizontal">
 
@@ -38,6 +39,7 @@
         android:layout_margin="@dimen/text_margin"
         android:paddingTop="@dimen/text_margin"
         android:paddingBottom="@dimen/text_margin"
+        android:width="@dimen/description_width"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <View
@@ -52,8 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:cropToPadding="true"
-        android:adjustViewBounds="true"
+        android:minWidth="@dimen/button_width"
         android:maxWidth="50dp"
         android:maxHeight="50dp"
         android:scaleType="centerCrop"

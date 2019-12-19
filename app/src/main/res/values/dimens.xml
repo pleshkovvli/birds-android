@@ -2,4 +2,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="name_width">64dp</dimen>
+    <dimen name="description_width">112dp</dimen>
+    <dimen name="button_width">32dp</dimen>
 </resources>

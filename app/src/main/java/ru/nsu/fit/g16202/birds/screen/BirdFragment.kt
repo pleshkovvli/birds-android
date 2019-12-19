@@ -6,22 +6,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.birdsandroid.R
-import com.google.android.material.snackbar.Snackbar
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
-import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsListInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsListPresenter
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.ServerSoundLoader
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.SoundLoader
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsListView
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
-import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
+import ru.nsu.fit.g16202.birds.bird.imagehandler.ByteArrayImageHandler
+import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdElementPresenter
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdPresenter
@@ -29,6 +31,8 @@ import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdFragment : Fragment() {
     var repositoryProvider: RepositoryProvider? = null
+    var soundLoader: SoundLoader? = null
+    var imageHandler: ((() -> ImageView) -> ImageHandler)? = null
 
     private var soundPlayer: MediaPlayer? = null
 
@@ -42,31 +46,40 @@ class BirdFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bird_list, container, false)
 
-        val repository = repositoryProvider?.repository ?: MainBirdsRepository(getString(R.string.endpoint))
+        val repository = repositoryProvider?.repository
+            ?: MainBirdsRepository(
+                getString(R.string.allBirdsEndpoint),
+                getString(R.string.fileEndpoint)
+            )
 
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
 
                 val birdsView : BirdsView = BirdsListView { imageView ->
-                    GlideImageHandler(imageView) { Glide.with(this@BirdFragment) }
+                    imageHandler?.invoke(imageView) ?: ByteArrayImageHandler(imageView)
                 }.also { adapter = it }
 
                 val birdsInteractor : BirdsInteractor = BirdsListInteractor(
                     repository,
-                    MediaPlayerSoundHandler { soundPlayer }
-                ) {
-                    Toast.makeText(
-                        this@BirdFragment.context,
-                        R.string.loadError,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                    MediaPlayerSoundHandler(
+                        soundLoader ?: ServerSoundLoader(),
+                        context
+                    ) { soundPlayer }
+                ) { showOnListLoadFailedError() }
 
                 birdsPresenter = createBirdsPresenter(birdsInteractor, birdsView)
             }
         }
         return view
+    }
+
+    private fun showOnListLoadFailedError() {
+        Toast.makeText(
+            this@BirdFragment.context,
+            R.string.loadError,
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun createBirdsPresenter(
