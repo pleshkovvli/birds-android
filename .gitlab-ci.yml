@@ -53,6 +53,12 @@ unit_tests:
 instrumentation_tests:
   stage: test
   script:
+    - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+    - chmod +x android-wait-for-emulator
+    - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86"
+    - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager --update
+    - echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -k "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86" -n test
+    - emulator -list-avds
     - emulator -avd testAVD -no-audio -no-window &
     - adb devices
     - adb shell settings put global window_animation_scale 0 &
