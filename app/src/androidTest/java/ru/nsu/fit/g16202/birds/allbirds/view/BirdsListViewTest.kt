@@ -14,15 +14,12 @@ import ru.nsu.fit.g16202.birds.screen.BirdFragment
 import ru.nsu.fit.g16202.birds.screen.MainActivity
 import androidx.test.espresso.ViewAction
 import android.view.View
-import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.UiController
 import androidx.test.espresso.action.ViewActions.click
 import org.hamcrest.Matcher
-import org.junit.Assert
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
-import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 import ru.nsu.fit.g16202.birds.screen.RepositoryProvider
 
