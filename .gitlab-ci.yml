@@ -36,4 +36,4 @@ assembleDebug:
 debugTests:
   stage: test
   script:
-    - ./gradlew -Pci --console=plain :app:testDebug
+    - ./gradlew clean connectedAndroidTest test createDebugCoverageReport jacocoTestReport sonarqube -Dsonar.login=$SONAR_LOGIN
