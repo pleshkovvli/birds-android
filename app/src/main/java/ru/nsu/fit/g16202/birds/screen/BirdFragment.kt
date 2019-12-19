@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,9 +18,12 @@ import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsListPresenter
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.ServerSoundLoader
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.SoundLoader
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsListView
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ByteArrayImageHandler
+import ru.nsu.fit.g16202.birds.bird.imagehandler.ImageHandler
 import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdElementPresenter
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdPresenter
@@ -27,6 +31,8 @@ import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdFragment : Fragment() {
     var repositoryProvider: RepositoryProvider? = null
+    var soundLoader: SoundLoader? = null
+    var imageHandler: ((() -> ImageView) -> ImageHandler)? = null
 
     private var soundPlayer: MediaPlayer? = null
 
@@ -51,12 +57,15 @@ class BirdFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
 
                 val birdsView : BirdsView = BirdsListView { imageView ->
-                    ByteArrayImageHandler(imageView)
+                    imageHandler?.invoke(imageView) ?: ByteArrayImageHandler(imageView)
                 }.also { adapter = it }
 
                 val birdsInteractor : BirdsInteractor = BirdsListInteractor(
                     repository,
-                    MediaPlayerSoundHandler(context) { soundPlayer }
+                    MediaPlayerSoundHandler(
+                        soundLoader ?: ServerSoundLoader(),
+                        context
+                    ) { soundPlayer }
                 ) { showOnListLoadFailedError() }
 
                 birdsPresenter = createBirdsPresenter(birdsInteractor, birdsView)

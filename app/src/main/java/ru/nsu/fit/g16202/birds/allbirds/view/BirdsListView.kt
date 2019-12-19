@@ -2,10 +2,7 @@ package ru.nsu.fit.g16202.birds.allbirds.view
 
 
 import android.content.Context.LAYOUT_INFLATER_SERVICE
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.birdsandroid.R

@@ -1,26 +1,30 @@
 package ru.nsu.fit.g16202.birds.allbirds.view
 
 import android.os.Bundle
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.rule.ActivityTestRule
-import com.example.birdsandroid.R
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import ru.nsu.fit.g16202.birds.screen.BirdFragment
-import ru.nsu.fit.g16202.birds.screen.MainActivity
-import androidx.test.espresso.ViewAction
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
+import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions.pressBack
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.rule.ActivityTestRule
+import com.bumptech.glide.Glide
+import com.example.birdsandroid.R
 import org.hamcrest.Matcher
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.WebSoundLoader
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
+import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
+import ru.nsu.fit.g16202.birds.screen.BirdFragment
+import ru.nsu.fit.g16202.birds.screen.MainActivity
 import ru.nsu.fit.g16202.birds.screen.RepositoryProvider
 
 
@@ -46,6 +50,13 @@ class BirdsListViewTest {
                 val fragment = super.instantiate(classLoader, className) as BirdFragment
                 fragment.repositoryProvider = object : RepositoryProvider {
                     override val repository: BirdsRepository? = MockedBirdsRepository
+                }
+
+                fragment.soundLoader = WebSoundLoader()
+                fragment.imageHandler = { imageViewCreator ->
+                    GlideImageHandler(imageViewCreator) {
+                        Glide.with(fragment)
+                    }
                 }
 
                 return fragment
@@ -89,8 +100,10 @@ class BirdsListViewTest {
 
         Thread.sleep(4000)
 
-        onView(withId(R.id.description))
-            .perform(click())
+        onView(withText(MockedBirdsRepository.birds[1].description))
+            .perform(pressBack())
+
+        Thread.sleep(100)
 
         onView(withId(R.id.birds_list))
             .perform(
@@ -121,8 +134,9 @@ class BirdsListViewTest {
 
         Thread.sleep(1000)
 
-        onView(withId(R.id.description))
-            .perform(click())
+
+        onView(withText(MockedBirdsRepository.birds[1].name))
+            .perform(pressBack())
 
         Thread.sleep(700)
 
@@ -145,7 +159,7 @@ class BirdsListViewTest {
         Thread.sleep(4000)
 
         onView(withId(R.id.full_image))
-            .perform(click())
+            .perform(pressBack())
 
         onView(withId(R.id.birds_list))
             .perform(
