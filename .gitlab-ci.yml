@@ -48,7 +48,7 @@ unit_tests:
 static_analysis:
   stage: quality_assurance
   script:
-    - ./gradlew createDebugCoverageReport jacocoTestReport sonarqube -Dsonar.login=$SONAR_TOKEN
+    - ./gradlew testDebugUnitTest jacocoTestReport sonarqube -Dsonar.login=$SONAR_TOKEN
   artifacts:
     name: "reports_${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
     when: on_failure
