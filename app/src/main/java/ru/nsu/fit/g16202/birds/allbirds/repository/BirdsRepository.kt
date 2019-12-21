@@ -4,4 +4,6 @@ import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 interface BirdsRepository {
     val birds: List<Bird>
+
+    fun addBird(newBird: PostBird)
 }

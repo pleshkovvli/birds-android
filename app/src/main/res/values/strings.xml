@@ -1,7 +1,21 @@
 <resources>
     <string name="app_name">BIRDS</string>
-    <string name="action_settings">Settings</string>
+    <string name="add_bird_title">Добавить птицу</string>
+    <string name="add_bird_name">Наименование</string>
+    <string name="add_bird_description">Описание</string>
+    <string name="add_bird_image">Ссылка на изображение</string>
+    <string name="add_bird_sound">Ссылка на звук</string>
     <string name="allBirdsEndpoint">http://10.0.2.2:5000/api/v1/birds</string>
-    <string name="fileEndpoint">http://10.0.2.2:5000/api/v1/files</string>
+    <string name="getFileEndpoint">http://10.0.2.2:5000/api/v1/files</string>
+    <string name="saveFileEndpoint">http://10.0.2.2:5000/api/v1/files</string>
+    <string name="saveBirdsEndpoint">http://10.0.2.2:5000/api/v1/birds</string>
     <string name="loadError">Ошибка загрузки списка</string>
+    <string name="nullError">Все поля должны быть заполнены</string>
+    <string name="ok">OK</string>
+
+
+    <string name="TEST_name">Синица</string>
+    <string name="TEST_description">Птица-синица</string>
+    <string name="TEST_image_link">https://images.unsplash.com/photo-1548246782-3f8a36b6b035?ixlib=rb-1.2.1ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1428&amp;q=80</string>
+    <string name="TEST_sound_link">https://www.xeno-canto.org/sounds/uploaded/YQNGFTBRRT/XC237160-BRTI_Chiricahuas_3May2013_Harter_1.mp3</string>
 </resources>

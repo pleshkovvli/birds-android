@@ -1,9 +1,13 @@
 package ru.nsu.fit.g16202.birds.allbirds.view
 
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.repository.PostBird
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
+import kotlin.concurrent.thread
 
 object MockedBirdsRepository : BirdsRepository {
+    override fun addBird(newBird: PostBird) = throw NotImplementedError()
+
     override val birds: List<Bird> = mutableListOf(
         Bird(
             "1",

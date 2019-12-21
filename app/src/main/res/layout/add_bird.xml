@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="@string/add_bird_name"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:minWidth="192dp"
+        android:layout_margin="@dimen/text_margin"
+        />
+
+    <EditText
+        android:id="@+id/add_name"
+        android:text="@string/TEST_name"
+        android:inputType="text"
+        android:minWidth="192dp"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
+
+    <TextView
+        android:text="@string/add_bird_description"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:minWidth="192dp"
+        android:layout_margin="@dimen/text_margin"
+        />
+
+    <EditText
+        android:id="@+id/add_description"
+        android:inputType="text"
+        android:text="@string/TEST_description"
+        android:minWidth="192dp"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
+
+    <TextView
+        android:text="@string/add_bird_image"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:minWidth="192dp"
+        android:layout_margin="@dimen/text_margin"
+        />
+
+    <EditText
+        android:id="@+id/add_image_link"
+        android:inputType="textUri"
+        android:minWidth="192dp"
+        android:text="@string/TEST_image_link"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
+
+    <TextView
+        android:text="@string/add_bird_sound"
+        android:minWidth="192dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_width="wrap_content"
+        />
+
+    <EditText
+        android:id="@+id/add_sound_link"
+        android:inputType="textUri"
+        android:minWidth="192dp"
+        android:text="@string/TEST_sound_link"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
+    <Button
+        android:id="@+id/confirm_button"
+        android:text="@string/ok"
+        android:height="48dp"
+        android:width="96dp"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_height="48dp"
+        android:layout_width="96dp"
+        />
+
+</LinearLayout>

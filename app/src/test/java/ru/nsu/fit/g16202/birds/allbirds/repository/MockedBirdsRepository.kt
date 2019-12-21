@@ -3,6 +3,8 @@ package ru.nsu.fit.g16202.birds.allbirds.repository
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 object MockedBirdsRepository : BirdsRepository {
+    override fun addBird(newBird: PostBird) = throw NotImplementedError()
+
     override val birds: List<Bird> = mutableListOf(
         Bird(
             "1",

@@ -16,6 +16,7 @@ import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsInteractor
 import ru.nsu.fit.g16202.birds.allbirds.interactor.BirdsListInteractor
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsListPresenter
 import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
+import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.ServerSoundLoader
@@ -49,8 +50,14 @@ class BirdFragment : Fragment() {
         val repository = repositoryProvider?.repository
             ?: MainBirdsRepository(
                 getString(R.string.allBirdsEndpoint),
-                getString(R.string.fileEndpoint)
-            )
+                getString(R.string.getFileEndpoint),
+                getString(R.string.saveBirdsEndpoint),
+                getString(R.string.saveFileEndpoint)
+            ).also { mainRep ->
+                repositoryProvider = object : RepositoryProvider {
+                    override val repository: BirdsRepository? = mainRep
+                }
+            }
 
         if (view is RecyclerView) {
             with(view) {
