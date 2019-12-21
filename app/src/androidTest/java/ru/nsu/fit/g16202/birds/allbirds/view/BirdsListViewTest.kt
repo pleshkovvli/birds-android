@@ -20,6 +20,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.repository.PostBird
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.WebSoundLoader
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
@@ -203,6 +204,8 @@ class BirdsListViewTest {
                 val fragment = super.instantiate(classLoader, className) as BirdFragment
                 fragment.repositoryProvider = object : RepositoryProvider {
                     override val repository: BirdsRepository? = object : BirdsRepository {
+                        override fun addBird(newBird: PostBird) = throw Exception()
+
                         override val birds: List<Bird>
                             get() = throw Exception()
                     }

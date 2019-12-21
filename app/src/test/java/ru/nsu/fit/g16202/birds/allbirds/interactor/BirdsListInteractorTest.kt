@@ -6,6 +6,7 @@ import ru.nsu.fit.g16202.birds.MockedSoundHandler
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
 
 import ru.nsu.fit.g16202.birds.allbirds.repository.MockedBirdsRepository
+import ru.nsu.fit.g16202.birds.allbirds.repository.PostBird
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 
 class BirdsListInteractorTest {
@@ -86,6 +87,8 @@ class BirdsListInteractorTest {
     fun testBirdsLoadingFail() {
         val soundHandler = MockedSoundHandler()
         val birdsRepository = object : BirdsRepository {
+            override fun addBird(newBird: PostBird) = throw Exception()
+
             override val birds: List<Bird>
                 get() = throw Exception()
         }
