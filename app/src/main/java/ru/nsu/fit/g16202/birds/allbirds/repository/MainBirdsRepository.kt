@@ -1,8 +1,6 @@
 package ru.nsu.fit.g16202.birds.allbirds.repository
 
 import android.util.Base64
-import android.util.Log
-import com.beust.klaxon.Json
 import com.beust.klaxon.Klaxon
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpGet
@@ -30,17 +28,19 @@ class MainBirdsRepository(
             field
         }
 
+    private class BirdToSave(
+        val name: String,
+        val description: String,
+        val imageFileId: String,
+        val audioFileId: String
+    )
+
+    private class BirdsHolder(val items: Array<BirdToSave>)
+
     override fun addBird(newBird: PostBird) {
-        CoroutineScope(Dispatchers.IO).async {
+        runBlocking(Dispatchers.IO) {
             val audioId = saveData(newBird.audio)
             val imageId = saveData(newBird.image)
-
-            class BirdToSave(
-                val name: String,
-                val description: String,
-                val imageFileId: String,
-                val audioFileId: String
-            )
 
             val birdToSave = BirdToSave(
                 newBird.name,
@@ -48,8 +48,6 @@ class MainBirdsRepository(
                 imageId,
                 audioId
             )
-
-            class BirdsHolder(val items: Array<BirdToSave>)
 
             val postBirds = addBirdsEndpoint
                 .httpPost()
@@ -59,9 +57,7 @@ class MainBirdsRepository(
                     arrayOf(birdToSave)
                 )
             )
-            postBirds.jsonBody(
-                jsonString
-            )
+            postBirds.jsonBody(jsonString)
 
             val (_, _, result) = postBirds.response()
 
@@ -74,7 +70,7 @@ class MainBirdsRepository(
         }
     }
 
-    class SaveData(val name: String, val data: String)
+    private class SaveData(val name: String, val data: String)
 
     private val headersToSave: List<Pair<String, String>>
             = listOf("Content-Type" to "application/json")
@@ -129,8 +125,7 @@ class MainBirdsRepository(
 
                     val birdsResult = apiBirds
                         .filter {
-                            it.audioFileId.first().isLetterOrDigit() and
-                                it.imageFileId.first().isLetterOrDigit()
+                            correctIds(it)
                         }
                         .map { birdFromAPI(it) }
 
@@ -139,6 +134,10 @@ class MainBirdsRepository(
             }
         }
     }
+
+    private fun correctIds(it: BirdAPI) =
+        it.audioFileId.first().isLetterOrDigit() and
+                it.imageFileId.first().isLetterOrDigit()
 
     private fun birdFromAPI(apiBird: BirdAPI): Bird = Bird(
         apiBird.id,

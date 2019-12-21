@@ -29,9 +29,10 @@ import ru.nsu.fit.g16202.birds.bird.interactor.BirdInteractor
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdElementPresenter
 import ru.nsu.fit.g16202.birds.bird.presenter.BirdPresenter
 import ru.nsu.fit.g16202.birds.bird.view.BirdView
+import java.lang.IllegalStateException
 
 class BirdFragment : Fragment() {
-    var repositoryProvider: RepositoryProvider? = null
+    lateinit var repositoryProvider: RepositoryProvider
     var dataLoader: DataLoader? = null
     var imageHandler: ((() -> ImageView) -> ImageHandler)? = null
 
@@ -47,27 +48,30 @@ class BirdFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_bird_list, container, false)
 
-        val repository = repositoryProvider?.repository
-            ?: MainBirdsRepository(
+        val repository = if (::repositoryProvider.isInitialized) {
+            repositoryProvider.repository
+        } else {
+            val mainRepository = MainBirdsRepository(
                 getString(R.string.allBirdsEndpoint),
                 getString(R.string.getFileEndpoint),
                 getString(R.string.saveBirdsEndpoint),
                 getString(R.string.saveFileEndpoint)
-            ).also { mainRep ->
-                repositoryProvider = object : RepositoryProvider {
-                    override val repository: BirdsRepository? = mainRep
-                }
+            )
+            repositoryProvider = object : RepositoryProvider {
+                override val repository: BirdsRepository = mainRepository
             }
+            mainRepository
+        } ?: throw IllegalStateException()
 
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
 
-                val birdsView : BirdsView = BirdsListView { imageView ->
+                val birdsView: BirdsView = BirdsListView { imageView ->
                     imageHandler?.invoke(imageView) ?: ByteArrayImageHandler(imageView)
                 }.also { adapter = it }
 
-                val birdsInteractor : BirdsInteractor = BirdsListInteractor(
+                val birdsInteractor: BirdsInteractor = BirdsListInteractor(
                     repository,
                     MediaPlayerSoundHandler(
                         dataLoader ?: ServerDataLoader(),
@@ -92,7 +96,7 @@ class BirdFragment : Fragment() {
     private fun createBirdsPresenter(
         birdsInteractor: BirdsInteractor,
         birdsView: BirdsView
-    ) : BirdsPresenter {
+    ): BirdsPresenter {
         return BirdsListPresenter(birdsInteractor, birdsView) { birdView: BirdView, pos: Int ->
             val birdInteractor: BirdInteractor = birdsInteractor.createBirdInteractor(pos)
             birdsPresenters.add(

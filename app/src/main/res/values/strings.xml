@@ -9,7 +9,9 @@
     <string name="getFileEndpoint">http://10.0.2.2:5000/api/v1/files</string>
     <string name="saveFileEndpoint">http://10.0.2.2:5000/api/v1/files</string>
     <string name="saveBirdsEndpoint">http://10.0.2.2:5000/api/v1/birds</string>
+    <string name="uploadBirdSuccess">Птица сохранена</string>
     <string name="loadError">Ошибка загрузки списка</string>
+    <string name="uploadBirdError">Ошибка выгрузки элемента списка</string>
     <string name="nullError">Все поля должны быть заполнены</string>
     <string name="ok">OK</string>
 
