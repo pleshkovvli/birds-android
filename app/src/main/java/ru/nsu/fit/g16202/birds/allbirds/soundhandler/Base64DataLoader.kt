@@ -5,8 +5,8 @@ import com.github.kittinunf.fuel.httpGet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 
-class Base64DataLoader : SoundLoader {
-    override fun loadSoundData(uri: String): ByteArray {
+class Base64DataLoader : DataLoader {
+    override fun loadData(uri: String): ByteArray {
         return runBlocking(Dispatchers.IO) {
             val (_, _, result) = uri
                 .httpGet()

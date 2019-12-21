@@ -21,7 +21,7 @@ class MediaPlayerSoundHandlerTest {
         var player: MediaPlayer? = null
         val soundUri = "https://www.xeno-canto.org/sounds/uploaded/YQNGFTBRRT/XC237160-BRTI_Chiricahuas_3May2013_Harter_1.mp3"
 
-        val soundLoader = WebSoundLoader()
+        val soundLoader = WebDataLoader()
 
         val handler = MediaPlayerSoundHandler(soundLoader, instrumentationContext) { player }
 

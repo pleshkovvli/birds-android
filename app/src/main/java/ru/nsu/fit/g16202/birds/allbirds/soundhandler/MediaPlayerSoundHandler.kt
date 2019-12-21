@@ -8,14 +8,14 @@ import java.io.File
 import java.io.FileOutputStream
 
 class MediaPlayerSoundHandler(
-    private val soundLoader: SoundLoader,
+    private val dataLoader: DataLoader,
     private val context: Context,
     private val getPlayer: () -> MediaPlayer?
 ) : SoundHandler {
     override fun isPlaying(): Boolean = getPlayer()?.isPlaying ?: false
 
     override fun load(uri: String) {
-        val byteArray = soundLoader.loadSoundData(uri)
+        val byteArray = dataLoader.loadData(uri)
 
         val localUrl = getLocalUri(byteArray)
         getPlayer()?.prepareMediaPlayer(localUrl)

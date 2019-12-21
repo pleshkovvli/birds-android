@@ -4,8 +4,8 @@ import android.util.Base64
 import com.beust.klaxon.Klaxon
 import com.github.kittinunf.fuel.httpGet
 
-class ServerSoundLoader : SoundLoader {
-    override fun loadSoundData(uri: String): ByteArray {
+class ServerDataLoader : DataLoader {
+    override fun loadData(uri: String): ByteArray {
         val (_, _, result) = uri
             .httpGet()
             .responseString()

@@ -19,8 +19,8 @@ import ru.nsu.fit.g16202.birds.allbirds.presenter.BirdsPresenter
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.repository.MainBirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.MediaPlayerSoundHandler
-import ru.nsu.fit.g16202.birds.allbirds.soundhandler.ServerSoundLoader
-import ru.nsu.fit.g16202.birds.allbirds.soundhandler.SoundLoader
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.ServerDataLoader
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.DataLoader
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsListView
 import ru.nsu.fit.g16202.birds.allbirds.view.BirdsView
 import ru.nsu.fit.g16202.birds.bird.imagehandler.ByteArrayImageHandler
@@ -32,7 +32,7 @@ import ru.nsu.fit.g16202.birds.bird.view.BirdView
 
 class BirdFragment : Fragment() {
     var repositoryProvider: RepositoryProvider? = null
-    var soundLoader: SoundLoader? = null
+    var dataLoader: DataLoader? = null
     var imageHandler: ((() -> ImageView) -> ImageHandler)? = null
 
     private var soundPlayer: MediaPlayer? = null
@@ -70,7 +70,7 @@ class BirdFragment : Fragment() {
                 val birdsInteractor : BirdsInteractor = BirdsListInteractor(
                     repository,
                     MediaPlayerSoundHandler(
-                        soundLoader ?: ServerSoundLoader(),
+                        dataLoader ?: ServerDataLoader(),
                         context
                     ) { soundPlayer }
                 ) { showOnListLoadFailedError() }

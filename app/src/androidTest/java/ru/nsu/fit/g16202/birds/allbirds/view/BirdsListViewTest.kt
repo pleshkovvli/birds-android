@@ -21,7 +21,7 @@ import org.junit.Rule
 import org.junit.Test
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.repository.PostBird
-import ru.nsu.fit.g16202.birds.allbirds.soundhandler.WebSoundLoader
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.WebDataLoader
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
 import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
 import ru.nsu.fit.g16202.birds.screen.BirdFragment
@@ -53,7 +53,7 @@ class BirdsListViewTest {
                     override val repository: BirdsRepository? = MockedBirdsRepository
                 }
 
-                fragment.soundLoader = WebSoundLoader()
+                fragment.dataLoader = WebDataLoader()
                 fragment.imageHandler = { imageViewCreator ->
                     GlideImageHandler(imageViewCreator) {
                         Glide.with(fragment)

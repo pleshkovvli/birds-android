@@ -4,13 +4,11 @@ import android.util.Base64
 import android.util.Log
 import com.beust.klaxon.Json
 import com.beust.klaxon.Klaxon
-import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import kotlinx.coroutines.*
 import ru.nsu.fit.g16202.birds.bird.entity.Bird
-import java.nio.charset.Charset
 
 class MainBirdsRepository(
     private val allBirdsEndpoint: String,
@@ -34,9 +32,7 @@ class MainBirdsRepository(
 
     override fun addBird(newBird: PostBird) {
         CoroutineScope(Dispatchers.IO).async {
-            Log.d("TEST_TEST", "TEST!")
             val audioId = saveData(newBird.audio)
-            Log.d("TEST_TEST", "TEST!!!!")
             val imageId = saveData(newBird.image)
 
             class BirdToSave(
@@ -69,8 +65,6 @@ class MainBirdsRepository(
 
             val (_, _, result) = postBirds.response()
 
-            Log.d("TEST_TEST", "$result")
-
             when (result) {
                 is com.github.kittinunf.result.Result.Failure -> {
                     throw result.getException()
@@ -80,37 +74,32 @@ class MainBirdsRepository(
         }
     }
 
-    class SaveData(@Json(name = "name") val name: String,@Json(name = "data") val data: String)
+    class SaveData(val name: String, val data: String)
 
-    private fun saveData(value: Pair<String, ByteArray>): String {
+    private val headersToSave: List<Pair<String, String>>
+            = listOf("Content-Type" to "application/json")
+
+    private fun saveData(dataToSave: Pair<String, ByteArray>): String {
         val httpPost = addFileEndpoint
             .httpPost()
 
-        httpPost.headers.append("Content-Type", "application/json")
-
-        val newValue = Base64.encodeToString(value.second, Base64.DEFAULT)
-
-        val json = """{
-           "Name": "${value.first}",
-           "Data": "$newValue"
+        headersToSave.forEach {
+            httpPost.headers.append(it.first, it.second)
         }
-        """.trimIndent()
 
+        val encodedValue = Base64.encodeToString(dataToSave.second, Base64.DEFAULT)
 
         val body = Klaxon().toJsonString(
             SaveData(
-                value.first,
-                newValue.toString()
+                dataToSave.first,
+                encodedValue.toString()
             )
         )
-        httpPost.jsonBody(
-            body
-        )
+
+        httpPost.jsonBody(body)
 
 
         val (_, _, result) = httpPost.responseString()
-
-        Log.d("TEST_TEST", "$result")
 
         class IdHolder (val id: String)
 
@@ -140,8 +129,8 @@ class MainBirdsRepository(
 
                     val birdsResult = apiBirds
                         .filter {
-                            !(it.audioFileId.startsWith("{") or
-                                    it.imageFileId.startsWith("{"))
+                            it.audioFileId.first().isLetterOrDigit() and
+                                it.imageFileId.first().isLetterOrDigit()
                         }
                         .map { birdFromAPI(it) }
 
@@ -149,7 +138,7 @@ class MainBirdsRepository(
                 }
             }
         }
-    }//Воробей - это птица
+    }
 
     private fun birdFromAPI(apiBird: BirdAPI): Bird = Bird(
         apiBird.id,

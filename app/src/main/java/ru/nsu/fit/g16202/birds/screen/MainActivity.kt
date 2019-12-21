@@ -13,13 +13,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.nsu.fit.g16202.birds.allbirds.repository.PostBird
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.Base64DataLoader
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.BinaryImageLoader
-import ru.nsu.fit.g16202.birds.allbirds.soundhandler.SoundLoader
+import ru.nsu.fit.g16202.birds.allbirds.soundhandler.DataLoader
 import java.lang.IllegalStateException
 
 class MainActivity : AppCompatActivity() {
 
-    private val loader: SoundLoader = Base64DataLoader()
-    private val imageLoader: SoundLoader = BinaryImageLoader()
+    private val loader: DataLoader = Base64DataLoader()
+    private val imageLoader: DataLoader = BinaryImageLoader()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
                                     PostBird(
                                         nameView.text.toString(),
                                         descriptionView.text.toString(),
-                                        soundLink to imageLoader.loadSoundData(soundLink),
-                                        imageLink to imageLoader.loadSoundData(imageLink)
+                                        soundLink to imageLoader.loadData(soundLink),
+                                        imageLink to imageLoader.loadData(imageLink)
                                     )
                                 )
                             } catch (e: IllegalStateException) {
