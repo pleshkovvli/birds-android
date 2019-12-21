@@ -19,6 +19,7 @@ import org.hamcrest.Matcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import ru.nsu.fit.g16202.birds.allbirds.repository.BirdsRepository
 import ru.nsu.fit.g16202.birds.allbirds.repository.PostBird
 import ru.nsu.fit.g16202.birds.allbirds.soundhandler.WebDataLoader
@@ -27,6 +28,7 @@ import ru.nsu.fit.g16202.birds.bird.imagehandler.GlideImageHandler
 import ru.nsu.fit.g16202.birds.screen.BirdFragment
 import ru.nsu.fit.g16202.birds.screen.MainActivity
 import ru.nsu.fit.g16202.birds.screen.RepositoryProvider
+import java.lang.IllegalStateException
 
 
 class BirdsListViewTest {
@@ -171,26 +173,6 @@ class BirdsListViewTest {
             )
 
         Thread.sleep(4000)
-    }
-
-    @Test
-    fun testNullRepository() {
-        val fragmentArgs = Bundle().apply {
-            putInt("selectedListItem", 0)
-        }
-
-        val fragmentFactory = object : FragmentFactory() {
-            override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-                val fragment = super.instantiate(classLoader, className) as BirdFragment
-                fragment.repositoryProvider = object : RepositoryProvider {
-                    override val repository: BirdsRepository? = null
-                }
-
-                return fragment
-            }
-        }
-
-        launchFragmentInContainer<BirdFragment>(fragmentArgs, factory = fragmentFactory)
     }
 
     @Test
